@@ -296,7 +296,7 @@ export const postNewPatientForm = async (req,res,next)=>{
 
       const activationLink = `http://192.168.0.102:5000/patient/activate/${activationToken}`;
 
-      await sendEmail(
+        sendEmail(
         email,
         "Activate your account",
         `
