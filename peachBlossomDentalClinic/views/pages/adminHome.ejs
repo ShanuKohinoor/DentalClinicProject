@@ -1,0 +1,576 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Peach Blossom Dental Clinic - Admin Dashboard</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Tailwind -->
+  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <style>
+    /* Custom thin scrollbar */
+    .custom-scrollbar::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    .custom-scrollbar::-webkit-scrollbar-track {
+      background: transparent;
+    }
+    .custom-scrollbar::-webkit-scrollbar-thumb {
+      background: rgba(255, 122, 99, 0.25);
+      border-radius: 9999px;
+    }
+    .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+      background: rgba(255, 122, 99, 0.45);
+    }
+  </style>
+</head>
+
+<body class="min-h-screen bg-[#FCF8F7] font-sans antialiased text-slate-700">
+
+  <div class="flex min-h-screen">
+
+    <!--  DESKTOP / TABLET SIDEBAR -->
+    <aside class="hidden md:flex w-24 lg:w-28 h-screen bg-gradient-to-b from-[#FFF0EC] to-[#FFE5DF] border-r border-[#FBD2C9] flex-col items-center justify-between py-4 shrink-0">
+      
+      <div class="w-full flex flex-col items-center">
+        <!-- Home / Logo -->
+        <a href="/" class="w-14 h-14 lg:w-16 lg:h-16 flex flex-col items-center justify-center bg-white text-[#FF7A63] rounded-2xl shadow-sm border border-[#FBD2C9] hover:text-[#E65B44] hover:shadow transition-all duration-200 mb-8 group">
+          <i class="fa-solid fa-tooth text-xl lg:text-2xl group-hover:scale-110 transition-transform"></i>
+          <span class="text-[9px] lg:text-[10px] font-bold uppercase tracking-tight mt-0.5">Home</span>
+        </a>
+
+        <!-- Nav -->
+        <ul class="w-full flex flex-col items-center space-y-2 px-2">
+          <li class="w-full">
+            <a href="/admin/patientDetails" class="w-full py-3 rounded-xl flex flex-col items-center group hover:bg-white/80 hover:text-[#FF7A63] transition-all duration-150">
+              <i class="fa-solid fa-user-injured text-lg lg:text-xl mb-1 group-hover:scale-105 transition-transform"></i>
+              <span class="text-[10px] lg:text-[11px] font-semibold tracking-wide">Patients</span>
+            </a>
+          </li>
+
+          <li class="w-full">
+            <a href="/admin/doctorDetails" class="w-full py-3 rounded-xl flex flex-col items-center group hover:bg-white/80 hover:text-[#FF7A63] transition-all duration-150">
+              <i class="fa-solid fa-user-doctor text-lg lg:text-xl mb-1 group-hover:scale-105 transition-transform"></i>
+              <span class="text-[10px] lg:text-[11px] font-semibold tracking-wide">Doctors</span>
+            </a>
+          </li>
+
+          <li class="w-full">
+            <a href="/admin/allPatientAppointments" class="w-full py-3 rounded-xl flex flex-col items-center group hover:bg-white/80 hover:text-[#FF7A63] transition-all duration-150">
+              <i class="fa-solid fa-calendar-day text-lg lg:text-xl mb-1 group-hover:scale-105 transition-transform"></i>
+              <span class="text-[10px] lg:text-[11px] font-semibold tracking-wide">Appts</span>
+            </a>
+          </li>
+
+          <li class="w-full">
+            <a href="/admin/allInvoices" class="w-full py-3 rounded-xl flex flex-col items-center group hover:bg-white/80 hover:text-[#FF7A63] transition-all duration-150">
+              <i class="fa-solid fa-credit-card text-lg lg:text-xl mb-1 group-hover:scale-105 transition-transform"></i>
+              <span class="text-[10px] lg:text-[11px] font-semibold tracking-wide">Payments</span>
+            </a>
+          </li>
+        </ul>
+      </div>
+
+      <!-- Logout -->
+      <div class="w-full border-t border-[#FBD2C9] pt-4 px-2">
+        <form action="/admin/logout" method="POST" class="w-full">
+          <button type="submit" class="w-full py-3 rounded-xl flex flex-col items-center text-slate-400 hover:bg-rose-50 hover:text-rose-500 transition-all duration-150 cursor-pointer">
+            <i class="fa-solid fa-right-from-bracket text-lg lg:text-xl mb-1"></i>
+            <span class="text-[10px] lg:text-[11px] font-semibold tracking-wide">Logout</span>
+          </button>
+        </form>
+      </div>
+    </aside>
+
+    <!--MAIN CONTENT -->
+    <main class="flex-1 min-h-screen overflow-y-auto custom-scrollbar pb-24 md:pb-6">
+      
+      <div class="p-4 sm:p-5 md:p-6 lg:p-8 xl:p-10">
+
+        <!-- MOBILE TOP BAR  -->
+        <div class="md:hidden mb-5">
+          <div class="bg-gradient-to-r from-[#FFF0EC] to-[#FFE5DF] border border-[#FBD2C9] rounded-2xl px-4 py-4 shadow-sm">
+            <div class="flex items-center justify-between gap-3">
+              <div class="flex items-center gap-3">
+                <div class="w-12 h-12 rounded-2xl bg-white border border-[#FBD2C9] flex items-center justify-center text-[#FF7A63] shadow-sm">
+                  <i class="fa-solid fa-tooth text-xl"></i>
+                </div>
+                <div>
+                  <p class="text-[11px] font-bold uppercase tracking-wider text-[#FF7A63]">Management Portal</p>
+                  <h1 class="text-lg sm:text-xl font-extrabold text-slate-800 leading-tight">
+                    Peach Blossom Dental Clinic
+                  </h1>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- HEADER TITLE + CLOCK -->
+        <div class="hidden md:flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-8">
+          <div>
+            <div class="flex items-center gap-2">
+              <span class="text-sm bg-[#FFF0EC] text-[#FF7A63] font-bold px-3 py-1 rounded-md border border-[#FBD2C9]">
+                Management Portal
+              </span>
+            </div>
+            <h1 class="text-3xl lg:text-4xl font-extrabold text-slate-800 tracking-tight mt-2 leading-tight">
+              Peach Blossom <span class="text-[#FF7A63] font-medium">Dental Clinic</span>
+            </h1>
+          </div>
+
+          <!-- Live Clock -->
+          <div class="bg-white border border-[#FBD2C9]/60 shadow-sm rounded-2xl px-5 py-3 flex items-center gap-3 min-w-[220px]">
+            <div class="w-3 h-3 rounded-full bg-[#FF7A63] animate-pulse"></div>
+            <div class="text-right">
+              <h2 id="clock" class="text-lg lg:text-xl font-bold text-slate-800 font-mono tracking-wide leading-none">--:--:--</h2>
+              <p id="date" class="text-xs font-bold text-slate-400 uppercase tracking-wider mt-1"></p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Mobile / tablet clock -->
+        <div class="md:hidden mb-6">
+          <div class="bg-white border border-[#FBD2C9]/60 shadow-sm rounded-2xl px-4 py-3 flex items-center gap-3">
+            <div class="w-3 h-3 rounded-full bg-[#FF7A63] animate-pulse"></div>
+            <div>
+              <h2 id="clockMobile" class="text-lg sm:text-xl font-bold text-slate-800 font-mono leading-none">--:--:--</h2>
+              <p id="dateMobile" class="text-xs font-bold text-slate-400 uppercase tracking-wider mt-1"></p>
+            </div>
+          </div>
+        </div>
+
+        <!-- STATS CARDS -->
+        <section class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4 sm:gap-5 mb-8 sm:mb-10">
+          
+          <!-- Total Patients -->
+          <div class="bg-white rounded-2xl border border-[#FBD2C9]/30 p-5 sm:p-6 shadow-sm flex items-center gap-4 hover:shadow-md hover:border-[#FBD2C9]/60 transition-all duration-200">
+            <div class="w-14 h-14 rounded-2xl bg-[#FFF0EC] text-[#FF7A63] flex items-center justify-center text-2xl shrink-0">
+              <i class="fa-solid fa-user-injured"></i>
+            </div>
+            <div>
+              <span class="block text-sm font-bold text-slate-400 uppercase tracking-wider">Total Patients</span>
+              <span class="block text-2xl sm:text-3xl font-extrabold text-slate-800 mt-1"><%= totalPatients %></span>
+            </div>
+          </div>
+
+          <!-- Doctors -->
+          <div class="bg-white rounded-2xl border border-[#FBD2C9]/30 p-5 sm:p-6 shadow-sm flex items-center gap-4 hover:shadow-md hover:border-[#FBD2C9]/60 transition-all duration-200">
+            <div class="w-14 h-14 rounded-2xl bg-orange-50 text-orange-500 flex items-center justify-center text-2xl shrink-0">
+              <i class="fa-solid fa-user-doctor"></i>
+            </div>
+            <div>
+              <span class="block text-sm font-bold text-slate-400 uppercase tracking-wider">Available Doctors Today</span>
+              <span class="block text-2xl sm:text-3xl font-extrabold text-slate-800 mt-1"><%= totalDoctorsAvailableToday %></span>
+            </div>
+          </div>
+
+          <!-- Appointments -->
+          <div class="bg-white rounded-2xl border border-[#FBD2C9]/30 p-5 sm:p-6 shadow-sm flex items-center gap-4 hover:shadow-md hover:border-[#FBD2C9]/60 transition-all duration-200">
+            <div class="w-14 h-14 rounded-2xl bg-rose-50 text-rose-400 flex items-center justify-center text-2xl shrink-0">
+              <i class="fa-solid fa-calendar-day"></i>
+            </div>
+            <div>
+              <span class="block text-sm font-bold text-slate-400 uppercase tracking-wider">Today's Appointments</span>
+              <span class="block text-2xl sm:text-3xl font-extrabold text-slate-800 mt-1"><%= todaysAppointment.length %></span>
+            </div>
+          </div>
+
+          <!-- Revenue -->
+          <div class="bg-white rounded-2xl border border-[#FBD2C9]/30 p-5 sm:p-6 shadow-sm flex items-center gap-4 hover:shadow-md hover:border-[#FBD2C9]/60 transition-all duration-200">
+            <div class="w-14 h-14 rounded-2xl bg-emerald-50 text-emerald-500 flex items-center justify-center text-2xl shrink-0">
+              <i class="fa-solid fa-credit-card"></i>
+            </div>
+            <div>
+              <span class="block text-sm font-bold text-slate-400 uppercase tracking-wider">Today's Revenue</span>
+              <span class="block text-2xl sm:text-3xl font-extrabold text-slate-800 mt-1">£<%= totalRevenue %></span>
+            </div>
+          </div>
+        </section>
+
+        <!-- TABLE SECTION -->
+     <section class="grid grid-cols-1 xl:grid-cols-[2fr_1fr] gap-6 lg:gap-8">
+          <!-- TODAY'S APPOINTMENTS -->
+          <div class="bg-white rounded-2xl border border-[#FBD2C9]/30 shadow-sm p-4 sm:p-5 lg:p-6 flex flex-col">
+            <div class="flex justify-between items-center mb-4 sm:mb-5 shrink-0">
+              <div class="flex items-center gap-2">
+                <span class="w-3 h-3 rounded-full bg-[#FF7A63]"></span>
+                <h2 class="text-lg sm:text-xl font-bold text-slate-800">Today's Schedule</h2>
+              </div>
+            </div>
+
+            <div class="overflow-x-auto overflow-y-auto custom-scrollbar rounded-xl border border-slate-100">
+              <table class="min-w-[700px] w-full text-left border-collapse text-sm sm:text-[15px]">
+                <thead>
+                  <tr class="bg-[#FCF8F7] border-b border-slate-100 text-slate-600 font-bold sticky top-0 z-10">
+                    <th class="p-3 sm:p-4 text-center w-14">#</th>
+                    <th class="p-3 sm:p-4">Patient</th>
+                    <th class="p-3 sm:p-4">Doctor</th>
+                    <th class="p-3 sm:p-4">Time</th>
+                    <th class="p-3 sm:p-4 text-center">Status</th>
+                  </tr>
+                </thead>
+                <tbody class="divide-y divide-slate-100">
+                  <% todaysAppointment.forEach((app, index)=>{ %>
+                    <tr class="hover:bg-[#FFF0EC]/20 transition-colors">
+                      <td class="p-3 sm:p-4 text-center font-medium text-slate-400"><%= index + 1 %></td>
+                      <td class="p-3 sm:p-4 font-semibold text-slate-800"><%= app.patientData ? app.patientData.name : 'Unknown' %></td>
+                      <td class="p-3 sm:p-4 text-slate-600 font-medium"><%= app.doctorData ? app.doctorData.name : 'Unknown' %></td>
+                      <td class="p-3 sm:p-4 text-slate-500 font-mono font-medium"><%= app.appointmentTime %></td>
+                      <td class="p-3 sm:p-4 text-center">
+                        <% if(app.status === 'Scheduled') { %>
+                          <span class="inline-flex items-center px-3 py-1 rounded-full font-bold text-xs text-amber-700 bg-amber-50 border border-amber-200">Pending</span>
+                        <% } else if(app.status === 'Confirmed') { %>
+                          <span class="inline-flex items-center px-3 py-1 rounded-full font-bold text-xs text-orange-700 bg-orange-50 border border-orange-200">Scheduled</span>
+                        <% } else if(app.status === 'Cancelled') { %>
+                          <span class="inline-flex items-center gap-1 px-3 py-1 rounded-full font-bold text-xs text-rose-700 bg-rose-50 border border-rose-200">
+                            <i class="fa-solid fa-xmark text-[10px]"></i> Cancelled
+                          </span>
+                        <% } else if(app.status === 'Completed') { %>
+                          <span class="inline-flex items-center gap-1 px-3 py-1 rounded-full font-bold text-xs text-emerald-700 bg-emerald-50 border border-emerald-200">
+                            <i class="fa-solid fa-circle-check text-[10px]"></i> Completed
+                          </span>
+                        <% } else { %>
+                          <span class="inline-flex items-center px-3 py-1 rounded-full font-bold text-xs text-slate-600 bg-slate-50 border border-slate-200"><%= app.status %></span>
+                        <% } %>
+                      </td>
+                    </tr>
+                  <% }) %>
+
+                  <% if(todaysAppointment.length === 0) { %>
+                    <tr>
+                      <td colspan="5" class="p-8 text-center text-slate-400 font-medium text-sm sm:text-base">
+                        No appointments scheduled for today.
+                      </td>
+                    </tr>
+                  <% } %>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- WEEKLY APPOINTMENTS SUMMARY CARD -->
+      <div class="bg-white rounded-2xl border border-[#FBD2C9]/30 shadow-sm p-4 flex flex-col justify-between">
+            <div>
+              <div class="flex items-center gap-2 mb-4">
+                <span class="w-3 h-3 rounded-full bg-orange-400"></span>
+                <h2 class="text-lg sm:text-xl font-bold text-slate-800">
+                  Weekly Schedule
+                </h2>
+              </div>
+
+              <div class="bg-[#FCF8F7] rounded-xl p-5 border border-slate-100">
+
+                <p class="text-sm font-semibold text-slate-500">
+                  Upcoming Appointments
+                </p>
+
+                <p class="text-4xl font-extrabold text-slate-800 mt-2">
+                  <%= weeklyAppointments.length %>
+                </p>
+
+                <p class="text-sm text-slate-400 mt-1">
+                  appointments scheduled this week
+                </p>
+
+              </div>
+            </div>
+
+
+            <button
+              onclick="openWeeklyModal()"
+              class="mt-5 w-full bg-[#FF7A63] hover:bg-[#E65B44] text-white font-bold py-3 rounded-xl transition-all duration-200 shadow-sm">
+
+              <i class="fa-solid fa-calendar-days mr-2"></i>
+              View Weekly Schedule
+
+            </button>
+
+          </div>
+        </section>
+      </div>
+    </main>
+  </div>
+
+  <!-- MOBILE BOTTOM NAV -->
+  <nav class="md:hidden fixed bottom-0 left-0 right-0 z-50 bg-white/95 backdrop-blur border-t border-[#FBD2C9] shadow-[0_-4px_20px_rgba(0,0,0,0.06)]">
+    <div class="grid grid-cols-5">
+      <a href="/" class="flex flex-col items-center justify-center py-3 text-slate-500 hover:text-[#FF7A63] transition">
+        <i class="fa-solid fa-house text-lg"></i>
+        <span class="text-[11px] font-semibold mt-1">Home</span>
+      </a>
+
+      <a href="/admin/patientDetails" class="flex flex-col items-center justify-center py-3 text-slate-500 hover:text-[#FF7A63] transition">
+        <i class="fa-solid fa-user-injured text-lg"></i>
+        <span class="text-[11px] font-semibold mt-1">Patients</span>
+      </a>
+
+      <a href="/admin/doctorDetails" class="flex flex-col items-center justify-center py-3 text-slate-500 hover:text-[#FF7A63] transition">
+        <i class="fa-solid fa-user-doctor text-lg"></i>
+        <span class="text-[11px] font-semibold mt-1">Doctors</span>
+      </a>
+
+      <a href="/admin/allPatientAppointments" class="flex flex-col items-center justify-center py-3 text-slate-500 hover:text-[#FF7A63] transition">
+        <i class="fa-solid fa-calendar-day text-lg"></i>
+        <span class="text-[11px] font-semibold mt-1">Appts</span>
+      </a>
+
+      <form action="/admin/logout" method="POST" class="flex">
+        <button type="submit" class="w-full flex flex-col items-center justify-center py-3 text-slate-500 hover:text-rose-500 transition cursor-pointer">
+          <i class="fa-solid fa-right-from-bracket text-lg"></i>
+          <span class="text-[11px] font-semibold mt-1">Logout</span>
+        </button>
+      </form>
+    </div>
+  </nav>
+  <!-- WEEKLY APPOINTMENTS MODAL -->
+
+<div 
+id="weeklyModal"
+class="hidden fixed inset-0 z-50 bg-black/40 backdrop-blur-sm flex items-center justify-center p-4">
+
+
+  <div class="bg-white rounded-2xl w-full max-w-5xl max-h-[85vh] overflow-hidden shadow-xl">
+
+
+    <!-- Modal Header -->
+    <div class="flex justify-between items-center p-5 border-b border-slate-100">
+
+      <div>
+        <h2 class="text-xl font-bold text-slate-800">
+          Weekly Appointments
+        </h2>
+
+        <p class="text-sm text-slate-400 mt-1">
+          Upcoming appointments schedule
+        </p>
+      </div>
+
+
+      <button 
+      onclick="closeWeeklyModal()"
+      class="text-slate-400 hover:text-rose-500 text-xl">
+
+        <i class="fa-solid fa-xmark"></i>
+
+      </button>
+
+    </div>
+
+
+
+    <!-- Modal Body -->
+
+    <div class="overflow-auto max-h-[65vh] custom-scrollbar">
+
+
+      <table class="min-w-[760px] w-full text-left text-sm">
+
+        <thead>
+
+          <tr class="bg-[#FCF8F7] border-b border-slate-100 sticky top-0">
+
+            <th class="p-4 font-bold text-slate-600">
+              Date
+            </th>
+
+            <th class="p-4 font-bold text-slate-600">
+              Patient
+            </th>
+
+            <th class="p-4 font-bold text-slate-600">
+              Time
+            </th>
+
+            <th class="p-4 font-bold text-slate-600">
+              Doctor
+            </th>
+
+            <th class="p-4 font-bold text-slate-600 text-center">
+              Status
+            </th>
+
+          </tr>
+
+        </thead>
+
+
+
+        <tbody class="divide-y divide-slate-100">
+
+
+        <% weeklyAppointments.forEach(app=>{ %>
+
+
+          <tr class="hover:bg-[#FFF0EC]/30">
+
+
+            <td class="p-4 font-medium">
+
+              <%= new Date(app.appointmentDate)
+              .toLocaleDateString('en-GB',
+              {day:'2-digit',
+              month:'2-digit',
+              year:'2-digit'}) %>
+
+            </td>
+
+
+
+            <td class="p-4 font-semibold text-slate-800">
+
+              <%= app.patientDatas 
+              ? app.patientDatas.name 
+              : 'Unknown' %>
+
+            </td>
+
+
+
+            <td class="p-4 font-mono text-slate-500">
+
+              <%= app.appointmentTime %>
+
+            </td>
+
+
+
+            <td class="p-4 text-slate-600">
+
+              <%= app.doctorData 
+              ? app.doctorData.name 
+              : 'Unknown' %>
+
+            </td>
+
+
+
+            <td class="p-4 text-center">
+
+
+              <% if(app.status === 'Completed'){ %>
+
+                <span class="px-3 py-1 rounded-full text-xs font-bold bg-emerald-50 text-emerald-700">
+                  Completed
+                </span>
+
+
+              <% } else if(app.status === 'Cancelled'){ %>
+
+                <span class="px-3 py-1 rounded-full text-xs font-bold bg-rose-50 text-rose-700">
+                  Cancelled
+                </span>
+
+
+              <% } else { %>
+
+                <span class="px-3 py-1 rounded-full text-xs font-bold bg-orange-50 text-orange-700">
+                  <%= app.status %>
+                </span>
+
+              <% } %>
+
+
+            </td>
+
+
+          </tr>
+
+
+        <% }) %>
+
+
+
+        <% if(weeklyAppointments.length === 0){ %>
+
+
+          <tr>
+
+            <td colspan="5" class="p-8 text-center text-slate-400">
+
+              No upcoming appointments.
+
+            </td>
+
+          </tr>
+
+
+        <% } %>
+
+
+
+        </tbody>
+
+      </table>
+
+
+    </div>
+
+
+
+  </div>
+
+
+</div>
+
+  <!-- LIVE CLOCK LOGIC -->
+<script>
+
+  // LIVE CLOCK
+  function updateClock() {
+    const now = new Date();
+
+    const time = now.toLocaleTimeString('en-GB', {
+      hour: '2-digit',
+      minute: '2-digit',
+      second: '2-digit'
+    });
+
+    const date = now.toLocaleDateString('en-GB', {
+      weekday: 'short',
+      day: '2-digit',
+      month: 'short',
+      year: 'numeric'
+    });
+
+    const clockEl = document.getElementById('clock');
+    const dateEl = document.getElementById('date');
+
+    if (clockEl) clockEl.innerText = time;
+    if (dateEl) dateEl.innerText = date;
+  }
+
+
+  setInterval(updateClock, 1000);
+  updateClock();
+
+
+
+  // OPEN WEEKLY MODAL
+  function openWeeklyModal(){
+
+    const modal = document.getElementById("weeklyModal");
+
+    modal.classList.remove("hidden");
+
+  }
+
+
+
+  // CLOSE WEEKLY MODAL
+  function closeWeeklyModal(){
+
+    const modal = document.getElementById("weeklyModal");
+
+    modal.classList.add("hidden");
+
+  }
+
+
+</script>
+</body>
+
+</html>

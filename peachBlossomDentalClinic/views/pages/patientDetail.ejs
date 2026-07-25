@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title><%= title %></title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+  <style>
+    .custom-scrollbar::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    .custom-scrollbar::-webkit-scrollbar-thumb {
+      background: rgba(255, 122, 99, 0.2);
+      border-radius: 9999px;
+    }
+  </style>
+</head>
+
+<body class="min-h-screen bg-[#FCF8F7] font-sans antialiased text-slate-700 flex items-center justify-center p-2 md:p-4">
+
+  <!-- CONTAINER -->
+  <div class="w-full max-w-7xl bg-white border border-[#FBD2C9]/50 rounded-2xl md:rounded-3xl shadow-xl h-[95vh] flex flex-col overflow-hidden">
+
+    <!-- HEADER (RESPONSIVE FIXED) -->
+    <div class="flex flex-col lg:flex-row justify-between items-stretch lg:items-center gap-3 md:gap-4 bg-gradient-to-r from-[#FFF0EC] to-[#FFE5DF] px-4 md:px-8 py-4 border-b border-[#FBD2C9]/60 shrink-0">
+
+      <!-- LEFT -->
+      <div class="flex items-center gap-3 w-full lg:w-auto">
+        <div class="w-9 h-9 md:w-10 md:h-10 rounded-xl bg-white text-[#FF7A63] border flex items-center justify-center">
+          <i class="fa-solid fa-tooth text-sm md:text-lg"></i>
+        </div>
+
+        <div>
+          <h1 class="text-lg md:text-xl font-black text-slate-800"><%= title %></h1>
+          <p class="text-[10px] md:text-[11px] text-slate-400 uppercase font-bold">Patient Management</p>
+        </div>
+      </div>
+
+      <!-- SEARCH (FIXED FOR MOBILE) -->
+      <div class="w-full lg:flex-1 max-w-full lg:max-w-md">
+        <form id="searchForm" class="relative w-full">
+
+          <span class="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-xs">
+            <i class="fa-solid fa-magnifying-glass"></i>
+          </span>
+
+          <input
+            id="searchInput"
+            type="text"
+            name="search"
+            placeholder="Search patients..."
+            value="<%= search || '' %>"
+            class="w-full pl-9 pr-20 py-2 text-xs md:text-sm border border-slate-200 rounded-xl focus:ring-2 focus:ring-[#FF7A63] outline-none"
+          />
+
+          <button type="submit"
+            class="absolute right-1.5 top-1/2 -translate-y-1/2 bg-[#FF7A63] text-white text-[10px] md:text-xs px-2 md:px-3 py-1 rounded-lg">
+            Find
+          </button>
+
+        </form>
+      </div>
+
+      <!-- BUTTONS (WRAP ON MOBILE) -->
+      <div class="flex flex-wrap gap-2 w-full lg:w-auto justify-start lg:justify-end">
+
+        <a href="/admin/home"
+          class="px-3 md:px-4 py-2 text-xs bg-white border border-slate-200 rounded-xl flex items-center gap-2">
+          <i class="fa-solid fa-chart-pie text-slate-400"></i>
+          Dashboard
+        </a>
+
+        <a href="/admin/newPatient"
+          class="px-3 md:px-4 py-2 text-xs bg-[#FF7A63] text-white rounded-xl flex items-center gap-1.5">
+          <i class="fa-solid fa-plus"></i>
+          Add Patient
+        </a>
+
+      </div>
+
+    </div>
+
+    <!-- TABLE SECTION -->
+    <div class="flex-1 overflow-auto custom-scrollbar p-2 md:p-6">
+
+      <!-- IMPORTANT: horizontal scroll for mobile -->
+      <div class="overflow-x-auto">
+
+        <table class="min-w-[900px] w-full text-left border-collapse text-xs md:text-sm">
+
+          <!-- HEADER -->
+          <thead>
+            <tr class="bg-[#FCF8F7] text-[10px] uppercase text-slate-500 sticky top-0">
+              <th class="px-4 md:px-5 py-3 text-center">#</th>
+              <th class="px-4 md:px-5 py-3">Reg ID</th>
+              <th class="px-4 md:px-5 py-3">Full Name</th>
+              <th class="px-4 md:px-5 py-3 hidden sm:table-cell">Phone</th>
+              <th class="px-4 md:px-5 py-3 text-center">Age</th>
+              <th class="px-4 md:px-5 py-3 hidden md:table-cell">Gender</th>
+              <th class="px-4 md:px-5 py-3 hidden md:table-cell">Email</th>
+              <th class="px-4 md:px-5 py-3 text-center">Actions</th>
+            </tr>
+          </thead>
+
+          <!-- BODY -->
+          <tbody class="divide-y divide-slate-100">
+
+            <% patients.forEach((patient, index) => { %>
+              <tr class="hover:bg-[#FFF0EC]/20 transition">
+
+                <td class="px-4 md:px-5 py-3 text-center"><%= index + 1 %></td>
+
+                <td class="px-4 md:px-5 py-3 font-mono text-[#FF7A63]">
+                  <%= patient.registrationNumber %>
+                </td>
+
+                <td class="px-4 md:px-5 py-3 font-semibold">
+                  <%= patient.name %>
+                </td>
+
+                <td class="px-4 md:px-5 py-3 hidden sm:table-cell">
+                  <%= patient.phone || '—' %>
+                </td>
+
+                <td class="px-4 md:px-5 py-3 text-center">
+                  <%= patient.age || '—' %>
+                </td>
+
+                <td class="px-4 md:px-5 py-3 hidden md:table-cell">
+                  <%= patient.gender || '—' %>
+                </td>
+
+                <td class="px-4 md:px-5 py-3 hidden md:table-cell text-slate-500">
+                  <%= patient.email || '—' %>
+                </td>
+
+                <!-- ACTIONS -->
+                <td class="px-4 md:px-5 py-3">
+
+                  <div class="flex flex-wrap gap-1 justify-center">
+
+                    <a href="/admin/patient/<%=patient._id%>/view"
+                      class="px-2 py-1 text-[10px] bg-slate-100 rounded-md">
+                      View
+                    </a>
+
+                    <a href="/admin/patient/<%=patient._id%>/edit"
+                      class="px-2 py-1 text-[10px] bg-amber-100 rounded-md">
+                      Edit
+                    </a>
+
+                    <form action="/admin/patient/<%= patient._id %>/delete" method="POST">
+                      <button class="px-2 py-1 text-[10px] bg-rose-100 rounded-md">
+                        Delete
+                      </button>
+                    </form>
+
+                  </div>
+
+                </td>
+
+              </tr>
+            <% }) %>
+
+          </tbody>
+
+        </table>
+
+      </div>
+    </div>
+
+  </div>
+
+</body>
+</html>

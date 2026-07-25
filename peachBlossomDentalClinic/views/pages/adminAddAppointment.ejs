@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><%= title %></title>
+  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+</head>
+
+<body class="min-h-screen bg-gradient-to-br from-[#FFE6DF] via-white to-[#E6F2FF] flex items-center justify-center px-4 md:px-8 py-10">
+
+  <!-- MAIN CONTAINER  -->
+<div class="w-full max-w-6xl bg-white/80 backdrop-blur-2xl border border-white rounded-[35px] shadow-[0_25px_60px_rgba(0,0,0,0.12)] p-8 md:p-12 space-y-10">
+    <!-- HEADER -->
+   <div class="text-center border-b border-slate-200 pb-6">
+        <img src="/image/dentalLogo.png"
+           class="h-16 w-16 md:h-20 md:w-20 mx-auto border border-sky-400 object-contain"
+           alt="Clinic Logo">
+
+      <h1 class="text-4xl font-bold text-gray-900 tracking-tight">
+        <%= title %></h1>
+
+      <p class="text-gray-500 text-sm">
+        <span class="font-medium text-sky-600"><%= selectedDate %></span>
+      </p>
+    </div>
+
+    <form id="formSubmit" action="/admin/addAppointment" method="POST" class="space-y-8">
+
+      <!-- INPUTS -->
+      <div class="grid md:grid-cols-3 gap-6">
+
+        <div>
+          <label class="block text-sm font-semibold text-slate-700 mb-2">Full Name</label>
+          <input type="text" name="name" placeholder="Enter full name"
+            class="w-full rounded-2xl border border-slate-300 bg-white px-4 py-3 shadow-sm transition duration-300 focus:border-sky-400 focus:ring-4 focus:ring-sky-100 outline-none">
+        </div>
+
+        <div>
+          <label class="text-gray-700 font-medium">Phone Number</label>
+          <input type="tel" name="phone" placeholder="Enter phone number"
+            class="w-full rounded-2xl border border-slate-300 bg-white px-4 py-3 shadow-sm transition duration-300 focus:border-sky-400 focus:ring-4 focus:ring-sky-100 outline-none">
+        </div>
+
+        <div>
+          <label class="text-gray-700 font-medium">Email Address</label>
+          <input type="email" name="email" placeholder="Enter email"
+            class="w-full rounded-2xl border border-slate-300 bg-white px-4 py-3 shadow-sm transition duration-300 focus:border-sky-400 focus:ring-4 focus:ring-sky-100 outline-none">        </div>
+        
+        </div>
+
+      <!-- DATE + TIME -->
+      <input type="hidden" name="appointmentDate" id="appointmentDateHidden">
+      <input type="hidden" name="appointmentTime" id="appointmentTime">
+
+      <div class="grid md:grid-cols-2 gap-8">
+
+        <!-- DATE -->
+        <div>
+          <label class="text-gray-700 font-medium">Select Date</label>
+
+          <input type="date" id="appointmentDate"
+            class="w-full rounded-2xl border border-slate-300 bg-white px-4 py-3 shadow-sm transition duration-300 focus:border-sky-400 focus:ring-4 focus:ring-sky-100 outline-none">
+
+          <p class="mt-2 text-sm text-gray-600">
+            Selected Date:
+            <span id="selectedDate" class="text-sky-600 font-semibold">None</span>
+          </p>
+        </div>
+
+        <!-- TIME -->
+        <div>
+          <label class="text-gray-700 font-medium">Select Time Slot</label>
+
+          <div class="grid grid-cols-4 gap-3 mt-2">
+
+            <button type="button" data-time="10:00 AM"
+             class="w-full rounded-xl border border-slate-300 bg-white px-4 py-3 shadow-sm transition duration-300 focus:border-sky-400 focus:ring-4 focus:ring-red-100 hover:bg-rose-50 outline-none">
+              
+              10:00 AM
+            </button>
+
+            <button type="button" data-time="10:30 AM"
+             class="w-full rounded-xl border border-slate-300 bg-white px-4 py-3 shadow-sm transition duration-300 focus:border-sky-400 focus:ring-4 focus:ring-red-100 hover:bg-rose-50 outline-none">
+              10:30 AM
+            </button>
+
+            <button type="button" data-time="11:00 AM"
+             class="w-full rounded-xl border border-slate-300 bg-white px-4 py-3 shadow-sm transition duration-300 focus:border-sky-400 focus:ring-4 focus:ring-red-100 hover:bg-rose-50 outline-none">
+              11:00 AM
+            </button>
+
+            <button type="button" data-time="11:30 AM"
+             class="w-full rounded-xl border border-slate-300 bg-white px-4 py-3 shadow-sm transition duration-300 focus:border-sky-400 focus:ring-4 focus:ring-red-100 hover:bg-rose-50 outline-none">
+
+              11:30 AM
+            </button>
+
+            <button type="button" data-time="02:00 PM"
+             class="w-full rounded-xl border border-slate-300 bg-white px-4 py-3 shadow-sm transition duration-300 focus:border-sky-400 focus:ring-4 focus:ring-red-100 hover:bg-rose-50 outline-none">
+              2:00 PM
+            </button>
+
+            <button type="button" data-time="02:30 PM"
+             class="w-full rounded-xl border border-slate-300 bg-white px-4 py-3 shadow-sm transition duration-300 focus:border-sky-400 focus:ring-4 focus:ring-red-100 hover:bg-rose-50 outline-none">
+              2:30 PM
+            </button>
+
+            <button type="button" data-time="03:30 PM"
+             class="w-full rounded-xl border border-slate-300 bg-white px-4 py-3 shadow-sm transition duration-300 focus:border-sky-400 focus:ring-4 focus:ring-red-100 hover:bg-rose-50 outline-none">
+              3:30 PM
+            </button>
+
+            <button type="button" data-time="04:00 PM"
+             class="w-full rounded-xl border border-slate-300 bg-white px-4 py-3 shadow-sm transition duration-300 focus:border-sky-400 focus:ring-4 focus:ring-red-100 hover:bg-rose-50 outline-none">
+              4:00 PM
+            </button>
+
+          </div>
+
+          <p class="mt-2 text-sm text-gray-600">
+            Selected Time:
+            <span id="selectedTime" class="text-sky-600 font-semibold">None</span>
+          </p>
+        </div>
+
+      </div>
+
+      <!-- DOCTOR + TREATMENT -->
+      <div class="grid md:grid-cols-2 gap-8">
+
+        <div>
+          <label class="text-gray-700 font-medium">Select Doctor</label>
+
+          <select id="doctorSelect" name="doctor"
+            class="w-full rounded-2xl border border-slate-300 bg-white px-4 py-3 shadow-sm transition duration-300 focus:border-sky-400 focus:ring-4 focus:ring-sky-100 outline-none">
+
+            <option value="">--Choose a Doctor--</option>
+
+            <% doctors.forEach(doctor => { %>
+              <option value="<%= doctor._id %>">
+                <%= doctor.name %>
+                <% if (doctor.specialization && doctor.specialization.trim() !== '') { %>
+                  (<%= doctor.specialization %>)
+                <% } %>
+              </option>
+            <% }) %>
+
+          </select>
+
+          <p id="doctorError" class="text-red-500 text-sm mt-2 hidden">
+            Doctor not available on this date.
+          </p>
+        </div>
+
+        <div>
+          <label class="text-gray-700 font-medium">Select Treatment</label>
+
+          <select name="treatment"
+            class="w-full rounded-2xl border border-slate-300 bg-white px-4 py-3 shadow-sm transition duration-300 focus:border-sky-400 focus:ring-4 focus:ring-sky-100 outline-none">
+
+            <option value="">--Choose Treatment--</option>
+            <option value="cleaning">Routine CheckUp</option>
+            <option value="cleaning">Pain</option>
+            <option value="cleaning">Scaling</option>
+            <option value="clearAligner">Clear Aligner</option>
+            <option value="missingTeeth">Missing Teeth</option>
+            <option value="wisdomTooth">Wisdom Tooth Removal</option>
+            <option value="misalignedTeeth">Misaligned Teeth</option>
+            <option value="implant">Implant</option>
+            <option value="filling">Restoration</option>
+            <option value="root_canal">Root Canal</option>
+            <option value="orthodontics">Orthodontics</option>
+            <option value="extraction">Extraction</option>
+            <option value="orthodonticsBraces">Orthodontic Braces</option>
+          </select>
+        </div>
+
+      </div>
+
+      <!-- SUBMIT -->
+      <div class="text-center pt-4">
+        <button type="submit"
+          class="px-14 py-4 rounded-full font-semibold text-white bg-gradient-to-r from-[#FF9C87] to-[#66B3FF] hover:scale-[1.03] transition shadow-xl">
+          Confirm Appointment
+        </button>
+      </div>
+
+    </form>
+
+  </div>
+
+  <!-- SCRIPT  -->
+<script>
+
+  const dateInput = document.getElementById('appointmentDate');
+  const selectedDate = document.getElementById('selectedDate');
+  const hiddenDate = document.getElementById('appointmentDateHidden');
+
+  const doctorSelect = document.getElementById('doctorSelect');
+  const doctorError = document.getElementById('doctorError');
+
+  //  BLOCK PAST DATES
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+
+  const yyyy = today.getFullYear();
+  const mm = String(today.getMonth() + 1).padStart(2, '0');
+  const dd = String(today.getDate()).padStart(2, '0');
+
+  dateInput.min = `${yyyy}-${mm}-${dd}`;
+
+  if (dateInput) {
+
+    dateInput.addEventListener('input', async (e) => {
+
+      if (!e.target.value) return;
+
+      const selected = new Date(e.target.value);
+
+      //  BLOCK SUNDAY 
+      if (selected.getDay() === 0) {
+        dateInput.value = "";
+        selectedDate.textContent = "None";
+        hiddenDate.value = "";
+        return;
+      }
+
+      //  DATE DISPLAY
+      const options = {
+        weekday: 'long',
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric'
+      };
+
+      selectedDate.textContent = selected.toLocaleDateString('en-US', options);
+      hiddenDate.value = e.target.value;
+
+
+      // DOCTOR FETCH 
+      try {
+        const response = await fetch(`/admin/available-doctors?date=${e.target.value}`);
+        const data = await response.json();
+
+        doctorSelect.innerHTML = '<option value="">--Choose a Doctor--</option>';
+
+        if (data.doctors.length === 0) {
+          doctorError.classList.remove('hidden');
+        } else {
+          doctorError.classList.add('hidden');
+
+          data.doctors.forEach(doc => {
+            const option = document.createElement('option');
+            option.value = doc._id;
+            option.textContent =
+              `${doc.name} ${doc.specialization ? '(' + doc.specialization + ')' : ''}`;
+            doctorSelect.appendChild(option);
+          });
+        }
+
+      } catch (err) {
+        console.log(err);
+      }
+    });
+  }
+
+  // TIME SELECTION 
+  const hiddenTime = document.getElementById('appointmentTime');
+  const selectedTime = document.getElementById('selectedTime');
+
+  document.querySelectorAll('.time-btn').forEach(btn => {
+
+    btn.addEventListener('click', () => {
+
+      document.querySelectorAll('.time-btn').forEach(b =>
+        b.classList.remove('bg-[#FF9C87]', 'text-white', 'shadow-lg')
+      );
+
+      btn.classList.add('bg-[#FF9C87]', 'text-white', 'shadow-lg');
+
+      hiddenTime.value = btn.dataset.time;
+      selectedTime.textContent = btn.dataset.time;
+
+    });
+
+  });
+
+</script>
+
+</body>
+</html>

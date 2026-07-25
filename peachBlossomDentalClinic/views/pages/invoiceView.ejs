@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Invoice</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-gray-100 p-6">
+
+  <div class="max-w-3xl mx-auto bg-white shadow-lg rounded p-6">
+
+    <!-- Header -->
+    <div class="text-center border-b pb-4">
+      <h1 class="text-2xl font-bold">Dental Clinic Invoice</h1>
+      <p class="text-gray-600">Peach Blossom Dental Care</p>
+    </div>
+
+    <!-- Invoice Info -->
+    <div class="grid grid-cols-2 gap-4 mt-4">
+      <div>
+        <p class="text-gray-500">Invoice No</p>
+        <p class="font-semibold"><%= invoice.invoiceNumber %></p>
+      </div>
+
+      <div>
+        <p class="text-gray-500">Date</p>
+        <p class="font-semibold"><%= new Date(invoice.createdAt).toLocaleDateString() %></p>
+      </div>
+    </div>
+
+    <!-- Patient -->
+    <div class="mt-4">
+      <p class="text-gray-500">Patient</p>
+      <p class="font-semibold">
+        <%= invoice.patient.name %>
+      </p>
+    </div>
+
+    <!-- Treatment Table -->
+    <div class="mt-6">
+      <h2 class="font-semibold mb-2">Treatment Details</h2>
+
+      <table class="w-full border">
+        <thead class="bg-gray-200">
+          <tr>
+            <th class="p-2 text-left">#</th>
+            <th class="p-2 text-left">Treatment</th>
+            <th class="p-2 text-left">Cost</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <% invoice.treatments.forEach((t, i) => { %>
+            <tr class="border-t">
+              <td class="p-2"><%= i + 1 %></td>
+              <td class="p-2"><%= t.name %></td>
+              <td class="p-2">£ <%= t.cost %></td>
+            </tr>
+          <% }) %>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Summary -->
+    <div class="mt-6 border-t pt-4">
+
+      <div class="flex justify-between">
+        <span>Total Amount</span>
+        <span class="font-semibold">£ <%= invoice.totalAmount %></span>
+      </div>
+
+      <div class="flex justify-between">
+        <span>Paid Amount</span>
+        <span class="font-semibold text-green-600">£ <%= invoice.paidAmount %></span>
+      </div>
+
+      <div class="flex justify-between">
+        <span>Balance</span>
+        <span class="font-semibold text-red-600">£ <%= invoice.balance %></span>
+      </div>
+
+      <div class="mt-2">
+        <span class="px-3 py-1 bg-yellow-200 text-yellow-800 rounded">
+          <%= invoice.status %>
+        </span>
+      </div>
+    </div>
+
+    <!-- PAYMENT SECTION -->
+    <div class="mt-6 border-t pt-4">
+
+      <h2 class="font-semibold mb-2">Add Payment</h2>
+
+      <form action="/admin/invoice/pay/<%= invoice._id %>" method="POST" class="flex gap-2">
+
+        <input
+          type="number"
+          name="amount"
+          placeholder="Enter amount"
+          class="border p-2 w-full rounded"
+          required
+        >
+
+        <button class="bg-green-600 text-white px-4 py-2 rounded">
+          Pay
+        </button>
+
+      </form>
+
+    </div>
+
+    <!-- Actions -->
+    <div class="mt-6 flex justify-between">
+
+      <button onclick="window.print()" class="bg-blue-600 text-white px-4 py-2 rounded">
+        Print Invoice
+      </button>
+
+      <a href="/admin/allPatientAppointments" class="text-gray-600 underline">
+        Back
+      </a>
+
+    </div>
+
+  </div>
+
+</body>
+</html>

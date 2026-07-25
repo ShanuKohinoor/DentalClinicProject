@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title><%= title %></title>
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+</head>
+
+<body class="min-h-screen bg-gradient-to-br from-[#FF9C87] via-white to-[#66B3FF] py-10 px-4">
+
+  <div class="max-w-6xl mx-auto bg-white/70 backdrop-blur-xl border border-white/40 rounded-3xl shadow-2xl overflow-hidden">
+
+    <!-- HEADER -->
+    <div class="flex justify-between items-center px-8 py-6 bg-gradient-to-r from-[#FF9C87] via-white to-[#66B3FF]">
+      
+      <h1 class="text-2xl font-extrabold text-gray-800">
+        Payments for <span class="text-sky-700"><%= patient.name %></span>
+      </h1>
+
+      <a href="/admin/patientDetails"
+         class="px-4 py-2 bg-[#FF9C87] text-white rounded-lg shadow hover:bg-[#e67d6a] transition">
+        ← Back
+      </a>
+    </div>
+
+    <!-- TABLE -->
+    <div class="p-8">
+
+      <% if (!invoices || invoices.length === 0) { %>
+
+        <div class="text-center py-16">
+          <i class="fa-solid fa-receipt text-4xl text-gray-400 mb-3"></i>
+          <p class="text-gray-500 text-lg">No invoices found for this patient</p>
+        </div>
+
+      <% } else { %>
+
+        <div class="overflow-x-auto">
+          <table class="w-full border-collapse text-center">
+
+            <thead>
+              <tr class="bg-rose-100 text-gray-700">
+                <th class="p-3">Invoice No</th>
+                <th class="p-3">Treatments</th>
+                <th class="p-3">Total</th>
+                <th class="p-3">Paid</th>
+                <th class="p-3">Balance</th>
+                <th class="p-3">Status</th>
+                <th class="p-3">Bill Details</th>
+                <th class="p-3">Date</th>
+              </tr>
+            </thead>
+
+            <tbody>
+              <% invoices.forEach(inv => { %>
+                <tr class="border-t hover:bg-white/60 transition">
+
+                  <!-- Invoice Number -->
+                  <td class="p-3 font-semibold text-gray-800">
+                    #<%= inv.invoiceNumber %>
+                  </td>
+
+                  <!-- Treatments -->
+                  <td class="p-3 text-gray-700">
+                    <%= inv.treatments.map(t => t.name).join(", ") %>
+                  </td>
+
+                  <!-- Total -->
+                  <td class="p-3 text-gray-800 font-semibold">
+                    £<%= inv.totalAmount %>
+                  </td>
+
+                  <!-- Paid -->
+                  <td class="p-3 text-green-600 font-semibold">
+                    £<%= inv.paidAmount %>
+                  </td>
+
+                  <!-- Balance -->
+                  <td class="p-3 text-red-500 font-semibold">
+                    £<%= inv.balance %>
+                  </td>
+
+                  <!-- Status -->
+                  <td class="p-3">
+                    <% if(inv.status === "Paid") { %>
+                      <span class="px-3 py-1 bg-green-500 text-white text-sm rounded-full shadow">
+                        Paid
+                      </span>
+                    <% } else if(inv.status === "Partial") { %>
+                      <span class="px-3 py-1 bg-yellow-400 text-white text-sm rounded-full shadow">
+                        Partial
+                      </span>
+                    <% } else { %>
+                      <span class="px-3 py-1 bg-gray-400 text-white text-sm rounded-full shadow">
+                        Pending
+                      </span>
+                    <% } %>
+                  </td>
+
+                  <td>
+                    <a href="/admin/appointment/<%= inv.appointment %>/invoice"
+                      class="inline-flex items-center gap-1 bg-[#FF7F6E] hover:bg-[#ff6b58] text-white px-4 py-1.5 rounded-lg text-sm shadow-sm transition">
+                      <i class="fa fa-eye"></i> View
+                    </a>
+
+                  </td>
+
+                  <!-- Date -->
+                  <td class="p-3 text-gray-500 text-sm">
+                    <%= new Date(inv.createdAt).toLocaleDateString('en-GB') %>
+                  </td>
+
+                </tr>
+              <% }) %>
+            </tbody>
+
+          </table>
+        </div>
+
+      <% } %>
+
+    </div>
+
+  </div>
+
+</body>
+</html>

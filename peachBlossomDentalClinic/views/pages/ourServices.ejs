@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%=title%></title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+</head>
+
+<body class="min-h-screen bg-gradient-to-br from-[#FF9C87] via-white to-[#66B3FF]">
+    <!-- Header -->
+     <%- include('../partials/header')%>
+
+
+     <div id="menuOverlay" class="fixed inset-0 bg-black/40 hidden z-40"></div>
+
+<div id="menu"
+     class="fixed top-0 right-0 h-full w-72 bg-[#FFE1D8] shadow-xl transform translate-x-full transition-transform duration-300 z-50">
+
+  <div class="p-4">
+    <h2 class="text-2xl font-bold text-sky-700 mb-6">Menu</h2>
+
+    <nav class="flex flex-col gap-2 text-lg font-semibold">
+      <a href="/clinic/home" class="hover:text-sky-600">Home</a>
+      <a href="/clinic/about" class="hover:text-sky-600">About</a>
+      <a href="/clinic/team" class="hover:text-sky-600">Our Team</a>
+      <a href="/clinic/gallery" class="hover:text-sky-600">Gallery</a>
+      <a href="/clinic/contact" class="hover:text-sky-600">Contact</a>
+      <a href="/clinic/home#testimonials" class="hover:text-sky-600">Testimonials</a>
+      <a href="/clinic/home#FAQs" class="hover:text-sky-600">FAQs</a>
+
+
+      <hr class="my-4">
+      <h2 class="text-2xl font-bold text-red-700 mb-3">Login here</h2>
+
+      <!-- Login Links -->
+      <a href="/patient/signIn" class="hover:text-sky-600">Patient Login</a>
+      <a href="/doctor/login" class="hover:text-sky-600">Doctor Login</a>
+      <a href="/admin/login" class="hover:text-sky-600">Admin Login</a>
+    </nav>
+  </div>
+</div>
+
+      <!-- SERVICES SECTION -->
+  <section id="services" class="scroll-mt-24">
+    <div class="max-w-5xl mx-auto px-16 py-12">
+      <h2 class="text-6xl font-bold text-center text-gray-900 mb-8"><%=title%></h2>
+      <p class="text-center text-3xl text-gray-700 mb-16 max-w-2xl mx-auto">
+        We offer comprehensive dental care using modern technology in a calm, patient-friendly environment.
+      </p>
+
+      <div class="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-24 text-center">
+        <% const services = [
+          { name: "Dental Cleaning", img: "dental cleaning.png" },
+          { name: "Dental Fillings", img: "Dental Restoration.png" },
+          { name: "Teeth Whitening", img: "Teeth Whitening.png" },
+          { name: "Orthodontics", img: "Orthodontics.png" },
+          { name: "Cosmetic Dentistry", img: "cosmetic dentistry.png" },
+          { name: "Tooth Extraction", img: "extraction.png" },
+          { name: "Pediatric Dentistry", img: "pedodontics.png" },
+          { name: "Prosthodontics", img: "prosthodontics.png" },
+          { name: "Dental Implants", img: "dental implant.png" },
+          { name: "Customer Care", img: "customercare.png" }
+        ] %>
+
+        <% services.forEach(s => { %>
+          <div class="bg-white rounded-xl shadow p-6 hover:shadow-xl transition">
+        <img 
+        src="/image/<%= s.img %>" 
+        alt="<%= s.name %>" 
+        
+                  class="rounded-xl object-cover w-full h-72 md:h-96
+
+            mx-auto mb-6 object-contain">
+            <h3 class="text-xl font-semibold mb-2"><%= s.name %></h3>
+            <a href="/patient/loginPage" class="inline-block bg-[#DEAD9B] text-black px-6 py-3 text-sm tracking-widest hover:bg-[#c89b2e] transition">
+              BOOK HERE
+            </a>
+          </div>
+        <% }) %>
+      </div>
+    </div>
+  </section>
+  <script>
+  const menuBtn = document.getElementById('menuBtn');
+  const menuDetails = document.getElementById('menu');
+  const overlay = document.getElementById('menuOverlay');
+
+  menuBtn.addEventListener('click', () => {
+    menuDetails.classList.toggle('translate-x-full');
+    overlay.classList.toggle('hidden');
+  });
+
+  overlay.addEventListener('click', () => {
+    menuDetails.classList.add('translate-x-full');
+    overlay.classList.add('hidden');
+  });
+</script>
+
+
+    <!-- Footer -->
+     <%- include('../partials/footer')%>
+
+</body>
+</html>

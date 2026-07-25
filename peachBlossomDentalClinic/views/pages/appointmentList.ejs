@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title><%= title %></title>
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+</head>
+
+<body class="min-h-screen bg-gradient-to-br from-[#FFDED5] via-white to-[#66B3FF] flex justify-center p-6">
+
+  <!-- CONTAINER -->
+  <div class="w-full max-w-3xl">
+
+    <!-- HEADER -->
+    <div class="flex justify-between items-center mb-8">
+      <h1 class="text-3xl font-bold text-gray-800">
+        My Appointments
+      </h1>
+
+      <a href="/patient/patientHome"
+         class="bg-sky-600 hover:bg-sky-700 text-white px-4 py-2 rounded-lg shadow">
+        <i class="fa-solid fa-house mr-1"></i>
+      </a>
+    </div>
+
+    <!-- LIST -->
+    <div class="space-y-4">
+
+      <% if (!appointment || appointment.length === 0) { %>
+        <div class="bg-white rounded-xl shadow p-6 text-center text-gray-600">
+          No appointments found
+        </div>
+      <% } %>
+
+      <% appointment.forEach(app => { %>
+
+        <!-- CARD -->
+        <div class="bg-white rounded-2xl shadow-md p-5 border border-gray-100 hover:shadow-lg transition">
+
+          <!-- TOP -->
+          <div class="flex justify-between items-center mb-3">
+
+            <h2 class="font-bold text-lg text-sky-600">
+              <%= app.treatment %>
+            </h2>
+
+            <span class="text-xs px-3 py-1 rounded-full font-semibold
+              <%= app.status === 'Completed' ? 'bg-green-100 text-green-700' :
+                 app.status === 'Cancelled' ? 'bg-red-100 text-red-700' :
+                 'bg-sky-100 text-sky-700' %>">
+
+              <%= app.status %>
+            </span>
+
+          </div>
+
+          <!-- DETAILS -->
+          <div class="grid grid-cols-2 gap-2 text-gray-700 text-sm">
+
+            <p>
+              <b>Doctor:</b>
+              <%= app.doctor?.name || 'Not assigned' %>
+            </p>
+
+            <p>
+              <b>Date:</b>
+              <%= new Date(app.appointmentDate).toDateString() %>
+            </p>
+
+            <p>
+              <b>Time:</b>
+              <%= app.appointmentTime %>
+            </p>
+
+            <p>
+              <b>Email:</b>
+              <%= app.email %>
+            </p>
+
+          </div>
+
+        </div>
+
+      <% }) %>
+
+    </div>
+
+  </div>
+
+</body>
+</html>

@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title><%= title %></title>
+</head>
+
+<body>
+
+  <h1>Doctor Treatment Requests</h1>
+
+  <% notifications.forEach(n => { %>
+    <div style="border:1px solid #ccc; padding:10px; margin:10px;">
+      
+      <h3>Patient: <%= n.patient.name %></h3>
+
+      <p><%= n.message %></p>
+
+      <p>Status: <%= n.status %></p>
+
+    </div>
+  <% }) %>
+
+</body>
+</html>

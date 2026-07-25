@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title><%= title %> | Patient Login</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <!-- Tailwind CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+</head>
+<body class="min-h-screen bg-gradient-to-br from-[#FFEBE5] via-white to-[#E0F3FF] flex items-center justify-center">
+
+  <!-- Container -->
+  <div class="w-full max-w-md bg-white/90 backdrop-blur-md rounded-2xl shadow-xl p-8">
+    
+    <!-- Logo -->
+    <div class="flex justify-center mb-6">
+      <img src="/image/dentalLogo.png" alt="Peach Blossom Logo" class="h-24 w-24 object-contain">
+    </div>
+
+    <!-- Heading -->
+    <h2 class="text-3xl text-sky-700 font-bold text-center mb-6">
+               <%=title %>    </h2>
+
+    <!-- Form -->
+    <form action="/patient/loginPage" method="POST" class="space-y-5">
+      
+      
+      <div>
+        <label for="email" class="block text-gray-700 font-medium mb-1">Email</label>
+        <input type="email" id="name" name="email" placeholder="Enter an email" autocomplete="new-email"
+               class="w-full px-4 py-3 rounded-lg border border-sky-300 focus:outline-none focus:ring-2 focus:ring-sky-400 focus:border-transparent transition" />
+      </div>
+
+      <div>
+        <label for="password" class="block text-gray-700 font-medium mb-1">Password</label>
+        <input type="password" id="password" name="password" placeholder="Enter a password" autocomplete="new-password"
+               class="w-full px-4 py-3 rounded-lg border border-sky-300 focus:outline-none focus:ring-2 focus:ring-sky-400 focus:border-transparent transition" />
+      </div>
+<div class="text-center">
+<button type="submit"
+  class="w-40 items-center bg-gradient-to-r from-[#FF9C87] to-[#66B3FF] hover:from-[#FF7A5F] hover:to-[#3399FF] text-white font-bold py-3 rounded-lg shadow-lg transition-all duration-300">
+  Login
+</button>
+
+</div>
+    </form>
+    <div class="text-center mt-4 text-sm text-gray-600">
+      <p>
+        New patient? Please contact
+        <span class="font-semibold text-sky-700">Peach Blossom Dental Clinic</span>
+        or fill the
+        <a href="/clinic/contact" class="text-sky-500 hover:underline font-medium">
+          contact form
+        </a>.
+      </p>
+    </div>
+  </div>
+
+
+</body>
+</html>

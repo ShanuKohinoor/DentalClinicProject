@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title><%= title %></title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+</head>
+
+<body class="min-h-screen bg-gradient-to-br from-[#FF9C87] via-white to-[#66B3FF]">
+    <!-- Header -->
+     <%- include('../partials/header')%>
+
+     <div id="menuOverlay" class="fixed inset-0 bg-black/40 hidden z-40"></div>
+
+<div id="menu"
+     class="fixed top-0 right-0 h-full w-72 bg-[#FFE1D8] shadow-xl transform translate-x-full transition-transform duration-300 z-50">
+
+  <div class="p-4">
+    <h2 class="text-2xl font-bold text-sky-700 mb-6">Menu</h2>
+
+    <nav class="flex flex-col gap-2 text-lg font-semibold">
+      <a href="/clinic/home" class="hover:text-sky-600">Home</a>
+      <a href="/clinic/about" class="hover:text-sky-600">About</a>
+      <a href="/clinic/services" class="hover:text-sky-600">Services</a>
+      <a href="/clinic/gallery" class="hover:text-sky-600">Gallery</a>
+      <a href="/clinic/contact" class="hover:text-sky-600">Contact</a>
+      <a href="/clinic/home#testimonials" class="hover:text-sky-600">Testimonials</a>
+      <a href="/clinic/home#FAQs" class="hover:text-sky-600">FAQs</a>
+
+
+      <hr class="my-4">
+      <h2 class="text-2xl font-bold text-red-700 mb-3">Login here</h2>
+
+      <!-- Login Links -->
+      <a href="/patient/signIn" class="hover:text-sky-600">Patient Login</a>
+      <a href="/doctor/login" class="hover:text-sky-600">Doctor Login</a>
+      <a href="/admin/login" class="hover:text-sky-600">Admin Login</a>
+    </nav>
+  </div>
+</div>
+
+  <div class="max-w-7xl mx-auto px-6 py-12">
+
+    <!-- HERO TITLE & DESCRIPTION -->
+    <div class="text-center mb-20">
+      <h1 class="text-5xl md:text-6xl font-extrabold text-rose-400 leading-tight mb-4">
+        <%= title %>
+      </h1>
+      <p class="text-lg md:text-2xl text-gray-700  mx-auto">
+        Step inside <span class="font-semibold text-rose-500">Peach Blossom Dental Care</span> — where modern dental technology meets comfort, hygiene, and exceptional care for your smile.
+        Each specialist on our team brings extensive training and experience from around the world. 
+        Together, we ensure your smile receives the best care possible.
+    </p>
+    </div>
+
+    <!-- TEAM SECTION -->
+    <section id="team" class="scroll-mt-24 py-16 bg-gradient-to-r from-[#FFE1D8] to-[#E3F3FF] rounded-3xl shadow-lg">
+      <div class="max-w-7xl mx-auto px-4">
+
+        <div class="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 gap-10">
+          <% const doctors = [
+            { name: "Dr. Anitha ", title: "Dental Surgeon", img: "Dr.Anitha.png" },
+            { name: "Dr. Rahul ", title: "Orthodontist", img: "Dr.Rahul.png" },
+            { name: "Dr. Ha-eun", title: "Pedodontist", img: "Dr.Ha-eun.png" },
+            { name: "Dr. Neethu Thomas", title: "Endodontist", img: "Dr.Neethu Thomas.png" },
+            { name: "Dr. Christeena", title: "Maxillo-Facial Surgeon", img: "Dr.Christeena.png" },
+            { name: "Dr. Rasheena", title: "Periodontist", img: "Dr.Rasheena.png" }
+          ] %>
+
+          <% doctors.forEach(d => { %>
+            <div class="bg-white rounded-2xl shadow-md p-6 text-center hover:shadow-xl transition transform hover:-translate-y-2">
+              <img src="/image/<%= d.img %>" alt="<%= d.name %>" 
+                   class="w-40 h-40 md:w-48 md:h-48 mx-auto rounded-full object-cover mb-4 transition-transform duration-300 hover:scale-105">
+              <h3 class="text-xl md:text-2xl font-semibold text-gray-800 mb-1"><%= d.name %></h3>
+              <p class="text-sky-600 font-medium text-sm md:text-base"><%= d.title %></p>
+            </div>
+          <% }) %>
+        </div>
+      </div>
+    </section>
+
+    <script>
+  const menuBtn = document.getElementById('menuBtn');
+  const menuDetails = document.getElementById('menu');
+  const overlay = document.getElementById('menuOverlay');
+
+  menuBtn.addEventListener('click', () => {
+    menuDetails.classList.toggle('translate-x-full');
+    overlay.classList.toggle('hidden');
+  });
+
+  overlay.addEventListener('click', () => {
+    menuDetails.classList.add('translate-x-full');
+    overlay.classList.add('hidden');
+  });
+</script>
+
+
+    <!-- Footer -->
+     <%- include('../partials/footer')%>
+
+    </body>
+</html>

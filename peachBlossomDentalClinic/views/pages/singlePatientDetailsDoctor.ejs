@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title><%= title %></title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <!-- Tailwind -->
+  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+</head>
+
+<body class="bg-slate-50 min-h-screen text-slate-800 antialiased text-sm sm:text-base">
+  <main class="max-w-5xl mx-auto px-4 py-8 space-y-6">
+
+    <!-- TOP BAR (BACK TO DASHBOARD) -->
+    <div class="flex items-center justify-between">
+      <a href="/doctor/chatList" class="flex items-center gap-2 text-sm font-medium text-[#FF7F6B] hover:text-[#ff6b55] bg-white border border-[#FFE6E0] px-4 py-2 rounded-xl shadow-sm transition">
+        <i class="fa-solid fa-arrow-left"></i> Back to Patients
+      </a>
+      <span class="text-xs font-semibold text-slate-400 bg-slate-200 px-3 py-1 rounded-md uppercase tracking-wider">Patient File</span>
+    </div>
+
+    <!-- MAIN PATIENT CARD -->
+    <div class="bg-white border border-[#FFE6E0] p-6 rounded-3xl shadow-sm flex flex-col md:flex-row items-start md:items-center justify-between gap-6 relative overflow-hidden">
+      <!-- Decorative Background Shape -->
+      <div class="absolute top-0 right-0 w-24 h-24 bg-gradient-to-bl from-[#FFE6E0] to-transparent opacity-40 rounded-bl-full pointer-events-none"></div>
+
+      <div class="flex flex-col sm:flex-row lg:flex-row items-start sm:items-center gap-4 sm:gap-6">
+        <!-- Patient Avatar Box -->
+        <div class="w-16 h-16 rounded-2xl bg-[#FFF4F1] border border-[#FFE6E0] text-[#FF7F6B] flex items-center justify-center font-bold text-2xl shadow-sm shrink-0">
+          <%= patient.name.charAt(0).toUpperCase() %>
+        </div>
+
+        <div>
+          <h1 class="text-2xl font-bold text-slate-900 tracking-tight"><%= patient.name %></h1>
+          <div class="mt-1 flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4 text-sm text-slate-500">
+            <span class="flex items-center gap-1.5"><i class="fa-solid fa-envelope text-slate-400"></i> <%= patient.email %></span>
+            <span class="hidden sm:inline text-slate-300">|</span>
+            <span class="flex items-center gap-1.5"><i class="fa-solid fa-phone text-slate-400"></i> <%= patient.phone %></span>
+          </div>
+        </div>
+      </div>
+
+      <!-- ACTION BUTTON -->
+      <button onclick="openModal()" class="w-full md:w-auto bg-[#FF7F6B] hover:bg-[#ff6b55] text-white px-5 py-3 rounded-xl font-semibold flex items-center justify-center gap-2 transition shadow-sm shadow-[#FF7F6B]/10 cursor-pointer">
+        <i class="fa-solid fa-plus text-sm"></i> Add Treatment Record
+      </button>
+    </div>
+
+    <!-- SUMMARY SECTION -->
+    <div class="grid grid-cols-2 lg:grid-cols-4 gap-4">
+      <!-- Total Visits -->
+      <div class="bg-white border border-slate-100 p-5 rounded-2xl shadow-sm flex flex-col justify-between">
+        <div class="text-xs font-semibold text-slate-400 uppercase tracking-wider">Total Visits</div>
+        <div class="text-2xl font-bold text-slate-800 mt-1"><%= appointments.length %></div>
+      </div>
+
+      <!-- Treatments Count -->
+      <div class="bg-white border border-slate-100 p-5 rounded-2xl shadow-sm flex flex-col justify-between">
+        <div class="text-xs font-semibold text-slate-400 uppercase tracking-wider">Treatments Done</div>
+        <div class="text-2xl font-bold text-[#FF7F6B] mt-1"><%= treatments.length %></div>
+      </div>
+
+      <!-- Last Visit Date -->
+      <div class="bg-white border border-slate-100 p-5 rounded-2xl shadow-sm flex flex-col justify-between">
+        <div class="text-xs font-semibold text-slate-400 uppercase tracking-wider">Last Active Visit</div>
+        <div class="text-base font-bold text-slate-800 mt-1 truncate">
+          <%= appointments.length ? new Date(appointments[0].appointmentDate).toLocaleDateString(undefined, {month: 'short', day: 'numeric', year: 'numeric'}) : 'No History' %>
+        </div>
+      </div>
+
+      <!-- Status Indicator -->
+        <form action="/doctor/treatment/complete" method="POST">
+          <input type="hidden" name="patientId" value="<%= patient._id %>">
+
+          <button class="bg-green-500 text-white px-4 py-2 rounded">
+            Send Completion Request
+          </button>
+        </form>
+
+    <!-- TREATMENT HISTORY CONTAINER -->
+    <div class="bg-white border border-[#FFE6E0] rounded-3xl p-6 shadow-sm">
+      <div class="flex items-center gap-2 mb-6 pb-4 border-b border-slate-100">
+        <div class="w-8 h-8 rounded-lg bg-[#FFF4F1] text-[#FF7F6B] flex items-center justify-center text-sm"><i class="fa-solid fa-tooth"></i></div>
+        <h2 class="text-lg font-bold text-slate-900">Treatment History Log</h2>
+      </div>
+
+      <% if (!treatments.length) { %>
+        <div class="text-center py-12 bg-slate-50 border border-dashed rounded-2xl border-slate-200">
+          <i class="fa-solid fa-folder-open text-3xl text-slate-300 mb-2 block"></i>
+          <p class="text-slate-400 text-sm font-medium">No treatment history items recorded yet.</p>
+        </div>
+      <% } %>
+
+      <div class="space-y-4">
+        <% treatments.forEach(t => { %>
+          <div class="p-5 bg-white border border-slate-100 rounded-2xl shadow-xs hover:border-[#FFE6E0] hover:bg-[#FFF4F1]/10 transition duration-200">
+            <!-- Row Header -->
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-slate-100/60 pb-3 mb-3">
+              <span class="inline-flex items-center gap-1.5 text-xs font-bold text-[#FF7F6B] bg-[#FFF4F1] border border-[#FFE6E0] px-2.5 py-1 rounded-md">
+                <i class="fa-solid fa-tooth text-[10px]"></i> Tooth <%= t.toothNumber %>
+              </span>
+              <span class="text-xs font-medium text-slate-400 flex items-center gap-1">
+                <i class="fa-solid fa-clock-rotate-left text-[11px]"></i> <%= new Date(t.createdAt).toLocaleDateString(undefined, {month: 'short', day: 'numeric', year: 'numeric'}) %>
+              </span>
+            </div>
+
+            <!-- Content Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-3 md:gap-6">
+              <div>
+                <span class="block text-[11px] font-semibold text-slate-400 uppercase tracking-wider">Diagnosis</span>
+                <p class="text-sm font-semibold text-slate-800 mt-0.5"><%= t.diagnosis %></p>
+              </div>
+              <div>
+                <span class="block text-[11px] font-semibold text-slate-400 uppercase tracking-wider">Procedure Action</span>
+                <p class="text-sm text-slate-700 mt-0.5"><%= t.procedure %></p>
+              </div>
+                <% if (t.prescription?.medicine) { %>
+                <div class="mt-3 p-3 bg-indigo-50 border border-indigo-100 rounded-xl">
+
+                    <p class="text-xs font-bold text-indigo-600 uppercase">Prescription</p>
+
+                    <p class="text-sm text-slate-800 mt-1">
+                    💊 <%= t.prescription.medicine %> - <%= t.prescription.dosage %>
+                    </p>
+
+                    <p class="text-xs text-slate-600">
+                    ⏱ <%= t.prescription.frequency %> | ⏳ <%= t.prescription.duration %>
+                    </p>
+
+                </div>
+                <% } %>
+              <div>
+                <span class="block text-[11px] font-semibold text-slate-400 uppercase tracking-wider">Clinical Notes</span>
+                <p class="text-sm text-slate-600 mt-0.5 italic bg-slate-50 border border-slate-100 px-3 py-1.5 rounded-xl"><%= t.notes %></p>
+              </div>
+            </div>
+          </div>
+        <% }) %>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- MODAL COMPONENT -->
+<div id="modal" class="hidden fixed inset-0 bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-4 z-50">
+<div class="bg-white w-full max-w-md sm:max-w-lg mx-auto rounded-3xl shadow-2xl overflow-hidden border border-[#FFE6E0] max-h-[90vh] flex flex-col">      
+      <div class="flex justify-between items-center px-6 py-4 border-b border-slate-100 bg-gradient-to-r from-white to-[#FFF4F1] shrink-0">
+        <div class="flex items-center gap-2">
+          <i class="fa-solid fa-file-medical text-[#FF7F6B]"></i>
+          <h2 class="text-base font-bold text-slate-900">New Treatment Entry</h2>
+        </div>
+        <button onclick="closeModal()" class="w-7 h-7 flex items-center justify-center rounded-lg hover:bg-slate-100 text-slate-400 hover:text-slate-800 transition cursor-pointer">✕</button>
+      </div>
+
+      <form action="/doctor/patient/treatment/add" method="POST" class="p-6 space-y-4 overflow-y-auto custom-scrollbar">
+        <input type="hidden" name="patientId" value="<%= patient._id %>">
+
+        <div class="grid grid-cols-3 gap-3">
+          <div class="col-span-1">
+            <label class="block text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-1">Tooth</label>
+            <select name="toothNumber" class="w-full border border-slate-200 bg-slate-50 rounded-xl px-2 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#FF7F6B] focus:bg-white transition">
+              <option value="">Select</option>
+              <% for(let i = 11; i <= 48; i++) { %>
+                <option value="<%= i %>">#<%= i %></option>
+              <% } %>
+            </select>
+          </div>
+          
+          <div class="col-span-2">
+            <label class="block text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-1">Diagnosis</label>
+            <input name="diagnosis" placeholder="e.g., Deep cavity" class="w-full border border-slate-200 bg-slate-50 rounded-xl px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#FF7F6B] focus:bg-white transition">
+          </div>
+        </div>
+
+        <div>
+          <label class="block text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-1">Procedure Action</label>
+          <select name="procedure" class="w-full border border-slate-200 bg-slate-50 rounded-xl px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#FF7F6B] focus:bg-white transition">
+            <option value="">Select Treatment Plan</option>
+            <option>Filling</option>
+            <option>Extraction</option>
+            <option>Root Canal Treatment (RCT)</option>
+            <option>Scaling</option>
+            <option>Crown Placement</option>
+            <option>Braces Adjustment</option>
+          </select>
+        </div>
+
+        <div class="border border-[#FFE6E0] rounded-2xl p-4 bg-gradient-to-b from-white to-[#FFF4F1]/30 space-y-3">
+          <div class="flex items-center gap-1.5 text-[#FF7F6B]">
+            <i class="fa-solid fa-capsules text-xs"></i>
+            <span class="block text-[11px] font-bold uppercase tracking-wider">Prescription </span>
+          </div>
+
+          <div>
+            <select name="medicine" class="w-full border border-slate-200 bg-white p-2 rounded-xl text-xs focus:outline-none focus:ring-1 focus:ring-[#FF7F6B]">
+              <option value="">Select Medicine</option>
+              <option>Amoxicillin</option>
+              <option>Metronidazole</option>
+              <option>Clindamycin</option>
+              <option>Ibuprofen</option>
+              <option>Paracetamol</option>
+              <option>Chlorhexidine Mouthwash</option>
+              <option>Diclofenac</option>
+            </select>
+          </div>
+
+          <div class="grid grid-cols-3 gap-2">
+            <div>
+              <label class="block text-[10px] font-semibold text-slate-400 mb-0.5">Dosage</label>
+              <select name="dosage" class="w-full border border-slate-200 bg-white p-1.5 rounded-lg text-xs focus:outline-none">
+                <option value="">Select</option>
+                <option>250mg</option>
+                <option>500mg</option>
+                <option>650mg</option>
+                <option>1 tab</option>
+                <option>2 tabs</option>
+                <option>5ml</option>
+              </select>
+            </div>
+
+            <div>
+              <label class="block text-[10px] font-semibold text-slate-400 mb-0.5">Frequency</label>
+              <select name="frequency" class="w-full border border-slate-200 bg-white p-1.5 rounded-lg text-xs focus:outline-none">
+                <option value="">Select</option>
+                <option>Once daily</option>
+                <option>Twice daily</option>
+                <option>3 times daily</option>
+                <option>As needed</option>
+              </select>
+            </div>
+
+            <div>
+              <label class="block text-[10px] font-semibold text-slate-400 mb-0.5">Duration</label>
+              <select name="duration" class="w-full border border-slate-200 bg-white p-1.5 rounded-lg text-xs focus:outline-none">
+                <option value="">Select</option>
+                <option>3 days</option>
+                <option>5 days</option>
+                <option>7 days</option>
+                <option>10 days</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <label class="block text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-1">Clinical Notes</label>
+          <textarea name="notes" rows="2" placeholder="Write treatment summaries here..." class="w-full border border-slate-200 bg-slate-50 rounded-xl px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-[#FF7F6B] focus:bg-white transition"></textarea>
+        </div>
+
+        <button type="submit" class="w-full bg-[#FF7F6B] hover:bg-[#ff6b55] text-white py-2.5 rounded-xl font-bold transition shadow-md shadow-[#FF7F6B]/10 cursor-pointer mt-1 text-sm">
+          Save Record to History
+        </button>
+      </form>
+    </div>
+  </div>
+
+
+  <!-- MODAL LOGIC TRIGGER -->
+  <script>
+    function openModal() {
+      document.getElementById("modal").classList.remove("hidden");
+    }
+
+    function closeModal() {
+      document.getElementById("modal").classList.add("hidden");
+    }
+  </script>
+
+</body>
+</html>

@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title><%= title %> | Peach Blossom Clinic</title>
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+</head>
+
+<body class="min-h-screen bg-gradient-to-br from-[#FFE6DF] via-white to-[#D6EFFF] p-8">
+
+  <!-- DASHBOARD WRAPPER -->
+  <div class="max-w-4xl mx-auto bg-white/40 backdrop-blur-2xl border border-white/30 shadow-2xl rounded-3xl p-8">
+
+    <!-- TOP BAR -->
+    <div class="flex justify-between items-start mb-10">
+        <div class="w-16 h-16 rounded-full bg-gradient-to-r from-[#FF9C87] to-[#66B3FF] flex items-center justify-center text-white text-2xl font-bold shadow-lg">
+          <%= patient.name.charAt(0).toUpperCase() %>
+        </div>
+
+        <div>
+          <h1 class="text-3xl font-bold text-gray-800">
+            <%= greeting %>, <%= patient.name %>
+          </h1>
+        </div>
+
+      <!-- LOGOUT -->
+      <a href="/patient/logout"
+         class="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded-xl shadow-md text-sm">
+        <i class="fa-solid fa-right-from-bracket mr-1"></i>
+        Logout
+      </a>
+
+    </div>
+
+    <!-- PROFILE SECTION -->
+    <div class="bg-white/80 border border-white/40 rounded-2xl shadow-lg p-8">
+
+      <!-- PROFILE HEADER -->
+      <div class="flex items-center gap-5 mb-8">
+
+      </div>
+
+      <!-- DETAILS -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-5 text-gray-700">
+
+        <!-- NAME -->
+        <div class="bg-white rounded-xl p-4 border shadow-sm">
+          <p class="text-xs text-gray-400">Full Name</p>
+          <p class="font-semibold"><%= patient.name %></p>
+        </div>
+
+        <!-- EMAIL -->
+        <div class="bg-white rounded-xl p-4 border shadow-sm">
+          <p class="text-xs text-gray-400">Email</p>
+          <p class="font-semibold"><%= patient.email %></p>
+        </div>
+
+        <!-- PHONE -->
+        <div class="bg-white rounded-xl p-4 border shadow-sm">
+          <p class="text-xs text-gray-400">Phone</p>
+          <p class="font-semibold"><%= patient.phone || "Not added" %></p>
+        </div>
+
+        <!-- AGE -->
+        <div class="bg-white rounded-xl p-4 border shadow-sm">
+          <p class="text-xs text-gray-400">Age</p>
+          <p class="font-semibold"><%= patient.age || "Not provided" %></p>
+        </div>
+
+        <!-- GENDER -->
+        <div class="bg-white rounded-xl p-4 border shadow-sm">
+          <p class="text-xs text-gray-400">Gender</p>
+          <p class="font-semibold"><%= patient.gender || "Not provided" %></p>
+        </div>
+
+        <!-- REG NO -->
+        <div class="bg-white rounded-xl p-4 border shadow-sm">
+          <p class="text-xs text-gray-400">Registration Number</p>
+          <p class="font-semibold tracking-wide">
+            <%= patient.registrationNumber || "Pending Activation" %>
+          </p>
+        </div>
+
+      </div>
+
+      <!-- ACTION -->
+<div class="mt-6 flex flex-col sm:flex-row gap-4 justify-end">
+   
+  <!-- MY APPOINTMENTS -->
+      <a href="/patient/myAppointments"
+        class="px-6 py-2 rounded-xl bg-[#FFF4F1] border border-[#FFE6E0] text-gray-800 hover:bg-[#ffe6df] transition text-sm font-medium">
+        My Appointments
+      </a>
+
+      <!-- BOOK APPOINTMENT BUTTON -->
+      <a href="/patient/bookAppointment"
+        class="px-6 py-2 rounded-xl bg-gradient-to-r from-[#FF9C87] to-[#66B3FF] text-white font-semibold shadow-md hover:scale-105 transition text-sm">
+        Get Appointment
+      </a>
+
+      <a href="/"
+        class="px-4 py-2 rounded-xl bg-[#FFE6E0] text-[#FF7F6B] font-medium hover:bg-[#ffd6cf] transition">
+        <i class="fa-solid fa-arrow-left"></i>
+      </a>
+
+    </div>
+
+   </div>
+  </div>
+
+</body>
+</html>

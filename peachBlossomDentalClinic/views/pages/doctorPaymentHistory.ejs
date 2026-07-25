@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title><%= title %></title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+</head>
+
+<body class="min-h-screen bg-gradient-to-br from-[#FF9C87] via-white to-[#66B3FF] p-8">
+
+<div class="max-w-6xl mx-auto bg-white/70 backdrop-blur-xl border border-white/40 shadow-2xl rounded-3xl overflow-hidden">
+
+    <!-- Header -->
+    <div class="bg-gradient-to-r from-[#FF9C87] via-white to-[#66B3FF] px-8 py-6">
+        <h1 class="text-3xl font-extrabold text-gray-800">
+            <%= title %> of Dr. <%= doctorName %>
+        </h1>
+    </div>
+
+    <div class="p-6">
+
+        <table class="w-full border-separate border-spacing-y-3">
+
+            <thead>
+                <tr class="text-gray-700">
+                    <th class="px-4 py-3 text-left">Month</th>
+                    <th class="px-4 py-3 text-left">Total Salary</th>
+                    <th class="px-4 py-3 text-left">Paid Amount</th>
+                    <th class="px-4 py-3 text-left">Pending</th>
+                    <th class="px-4 py-3 text-left">Status</th>
+                    <th class="px-4 py-3 text-left">Payment Date</th>
+                </tr>
+            </thead>
+
+            <tbody>
+
+                <% if (payments.length === 0) { %>
+                    <tr>
+                        <td colspan="6" class="text-center py-10 text-gray-500">
+                            No payments recorded
+                        </td>
+                    </tr>
+                <% } %>
+
+                <% payments.forEach(payment => { %>
+
+                <tr class="bg-white/60 backdrop-blur-md shadow-md rounded-xl hover:shadow-xl transition">
+
+                    <!-- Month -->
+                    <td class="px-4 py-4 font-medium text-gray-800 rounded-l-xl">
+                        <%= payment.month %>
+                    </td>
+
+                    <!-- Total Salary (FIXED) -->
+                    <td class="px-4 py-4 text-gray-700">
+                        £<%= payment.totalSalary %>
+                    </td>
+
+                    <!-- Paid Amount -->
+                    <td class="px-4 py-4 text-gray-700">
+                        £<%= payment.paidAmount %>
+                    </td>
+
+                    <!-- Pending (FIXED) -->
+                    <td class="px-4 py-4 text-gray-700">
+                        £<%= (payment.totalSalary || 0) - (payment.paidAmount || 0) %>
+                    </td>
+
+                    <!-- Status -->
+                    <td class="px-4 py-4">
+                        <% if (payment.paymentStatus === 'Paid') { %>
+                            <span class="px-3 py-1 rounded-full text-sm font-semibold bg-green-100 text-green-700">
+                                Paid
+                            </span>
+                        <% } else { %>
+                            <span class="px-3 py-1 rounded-full text-sm font-semibold bg-yellow-100 text-yellow-700">
+                                Pending
+                            </span>
+                        <% } %>
+                    </td>
+
+                    <!-- Date -->
+                    <td class="px-4 py-4 text-gray-600 rounded-r-xl">
+                        <%= payment.paymentDate ? payment.paymentDate.toLocaleDateString('en-GB') : '-' %>
+                    </td>
+
+                </tr>
+
+                <% }) %>
+
+            </tbody>
+        </table>
+
+        <!-- Back Button -->
+        <div class="mt-6 flex justify-start">
+            <a href="/admin/doctor/<%= doctor._id %>/view"
+               class="px-5 py-2 bg-[#FF9C87] text-white font-semibold rounded-lg shadow hover:bg-[#e88b78] transition">
+                ← Back to Doctor
+            </a>
+        </div>
+
+    </div>
+</div>
+
+</body>
+</html>

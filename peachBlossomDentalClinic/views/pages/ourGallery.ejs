@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title><%= title %></title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+</head>
+
+<body class="min-h-screen bg-gradient-to-br from-[#FF9C87] via-white to-[#66B3FF]">
+    <!-- Header -->
+     <%- include('../partials/header')%>
+
+<div id="menu"
+     class="fixed top-0 right-0 h-full w-72 bg-[#FFE1D8] shadow-xl transform translate-x-full transition-transform duration-300 z-50">
+
+  <div class="p-4">
+    <h2 class="text-2xl font-bold text-sky-700 mb-6">Menu</h2>
+
+    <nav class="flex flex-col gap-2 text-lg font-semibold">
+      <a href="/clinic/home" class="hover:text-sky-600">Home</a>
+      <a href="/clinic/about" class="hover:text-sky-600">About</a>
+      <a href="/clinic/team" class="hover:text-sky-600">Our Team</a>
+      <a href="/clinic/services" class="hover:text-sky-600">Services</a>
+      <a href="/clinic/contact" class="hover:text-sky-600">Contact</a>
+      <a href="/clinic/home#testimonials" class="hover:text-sky-600">Testimonials</a>
+      <a href="/clinic/home#FAQs" class="hover:text-sky-600">FAQs</a>
+
+
+      <hr class="my-4">
+      <h2 class="text-2xl font-bold text-red-700 mb-3">Login here</h2>
+
+      <!-- Login Links -->
+      <a href="/patient/signIn" class="hover:text-sky-600">Patient Login</a>
+      <a href="/doctor/login" class="hover:text-sky-600">Doctor Login</a>
+      <a href="/admin/login" class="hover:text-sky-600">Admin Login</a>
+    </nav>
+  </div>
+</div>
+
+<!--Gallery-->
+  <div class="max-w-7xl mx-auto px-8 py-10">
+
+    <!-- TITLE -->
+    <div class="text-center mb-10">
+    <h1 class="text-6xl md:text-4xl font-bold text-rose-400"><%=title%></h1>
+    <p class="mt-3 text-gray-600 text-3xl">
+        Experience the warmth of our modern, hygienic, and patient-friendly dental clinic.
+    </p>
+    </div>
+
+    <!-- GALLERY -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 gap-12">
+
+      <!-- IMAGE CARD -->
+      <div class="overflow-hidden rounded-2xl shadow-lg">
+        <img
+          src="/image/modern dental clinic outside  image with peach white sky blue colour theme..clinic name is peach blossom dental care with sky in this colour theme (1).jpg"
+          alt="Clinic Exterior"
+          class="w-full h-64 object-cover hover:scale-105 transition duration-300"
+        />
+      </div>
+
+      <div class="overflow-hidden rounded-2xl shadow-lg">
+        <img
+          src="/image/reception with receptionist sitting on the chair with medicine in the  background  in peach white sky blue colour theme dental clinic.jpg"
+          alt="Reception Area"
+          class="w-full h-64 object-cover hover:scale-105 transition duration-300"
+        />
+      </div>
+
+      <div class="overflow-hidden rounded-2xl shadow-lg">
+        <img
+          src="/image/waitingareaClinic.png"
+          alt="Waiting Area"
+          class="w-full h-64 object-cover hover:scale-105 transition duration-300"
+        />
+      </div>
+
+      <div class="overflow-hidden rounded-2xl shadow-lg">
+        <img
+          src="/image/dental clinic  image with peach white sky blue colour theme.. (1).jpg"
+          alt="Clinic Interior"
+          class="w-full h-64 object-cover hover:scale-105 transition duration-300"
+        />
+      </div>
+
+      <div class="overflow-hidden rounded-2xl shadow-lg">
+        <img
+          src="/image/dental clinic  image with peach white sky blue colour theme.. (2).jpg"
+          alt="Dental Room"
+          class="w-full h-64 object-cover hover:scale-105 transition duration-300"
+        />
+      </div>
+
+      <div class="overflow-hidden rounded-2xl shadow-lg">
+        <img
+          src="/image/lady dentist wearing gloves treating patient in peach white sky blue colour theme dental clinic.jpg"
+          alt="Dental Treatment"
+          class="w-full h-64 object-cover hover:scale-105 transition duration-300"
+        />
+      </div>
+            <div class="overflow-hidden rounded-2xl shadow-lg">
+        <img
+          src="/image/lady dentist wearing gloves treating patient in peach white sky blue colour theme dental clinic (1).jpg"
+          alt="Dental Treatment"
+          class="w-full h-64 object-cover hover:scale-105 transition duration-300"
+        />
+      </div>
+
+      <div class="overflow-hidden rounded-2xl shadow-lg">
+        <img
+          src="/image/sterilizationArea.png"
+          alt="Sterilization Area"
+          class="w-full h-72 object-cover hover:scale-105 transition duration-300"
+        />
+      </div>
+
+    </div>
+<script>
+  const menuBtn = document.getElementById('menuBtn');
+  const menuDetails = document.getElementById('menu');
+  const overlay = document.getElementById('menuOverlay');
+
+  menuBtn.addEventListener('click', () => {
+    menuDetails.classList.toggle('translate-x-full');
+    overlay.classList.toggle('hidden');
+  });
+
+  overlay.addEventListener('click', () => {
+    menuDetails.classList.add('translate-x-full');
+    overlay.classList.add('hidden');
+  });
+</script>
+
+  </div>
+    <!-- Footer -->
+     <%- include('../partials/footer')%>
+     
+
+</body>
+</html>

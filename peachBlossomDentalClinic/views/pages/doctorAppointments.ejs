@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title><%= title %></title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="min-h-screen bg-gradient-to-br from-[#FF9C87] via-white to-[#66B3FF] font-sans">
+
+  <!-- HEADER -->
+  <div class="max-w-6xl mx-auto p-6">
+
+    <div class="flex justify-between items-center mb-8">
+      <h1 class="text-3xl font-extrabold text-gray-800">
+        <%= title %>
+      </h1>
+
+      <a href="/doctor/doctorHome"
+         class="bg-[#FF9C87] text-white px-5 py-2 rounded-xl shadow hover:bg-[#e68274] transition">
+        Back Home
+      </a>
+    </div>
+
+    <!-- TODAY SECTION -->
+    <div class="mb-10">
+      <h2 class="text-2xl font-bold text-gray-800 mb-4">
+        📅 Today's Appointments
+      </h2>
+
+      <% if (todaysAppointments.length === 0) { %>
+        <div class="bg-white/70 backdrop-blur-md p-6 rounded-2xl shadow text-gray-600 text-center">
+          No appointments scheduled for today
+        </div>
+      <% } %>
+
+      <div class="grid gap-4">
+        <% todaysAppointments.forEach(app => { %>
+
+          <div class="bg-white/80 backdrop-blur-md border border-white/40 rounded-2xl shadow-lg p-5 flex justify-between items-center">
+
+            <!-- LEFT -->
+            <div>
+              <h3 class="text-lg font-semibold text-gray-800">
+                <%= app.patient?.name %>
+              </h3>
+
+              <p class="text-sm text-gray-600">
+                🕒 <%= app.appointmentTime %>
+              </p>
+
+              <p class="text-sm text-gray-600">
+                🦷 <%= app.treatment %>
+              </p>
+            </div>
+
+            <!-- STATUS -->
+            <div>
+              <% if (app.status === 'Completed') { %>
+                <span class="px-4 py-1 rounded-full text-sm bg-green-100 text-green-700 font-semibold">
+                  Completed
+                </span>
+              <% } else if (app.status === 'Confirmed') { %>
+                <span class="px-4 py-1 rounded-full text-sm bg-blue-100 text-blue-700 font-semibold">
+                  Confirmed
+                </span>
+              <% } else if (app.status === 'Cancelled') { %>
+                <span class="px-4 py-1 rounded-full text-sm bg-red-100 text-red-700 font-semibold">
+                  Cancelled
+                </span>
+              <% } else { %>
+                <span class="px-4 py-1 rounded-full text-sm bg-yellow-100 text-yellow-700 font-semibold">
+                  Scheduled
+                </span>
+              <% } %>
+            </div>
+
+          </div>
+
+        <% }) %>
+      </div>
+    </div>
+
+    <!-- WEEK SECTION -->
+    <div>
+      <h2 class="text-2xl font-bold text-gray-800 mb-4">
+        📆 This Week
+      </h2>
+
+      <div class="grid gap-4">
+        <% weeklyAppointments.forEach(app => { %>
+
+          <div class="bg-white/80 backdrop-blur-md border border-white/40 rounded-2xl shadow-lg p-5 flex justify-between items-center">
+
+            <!-- LEFT -->
+            <div>
+              <h3 class="text-lg font-semibold text-gray-800">
+                <%= app.patient?.name %>
+              </h3>
+
+              <p class="text-sm text-gray-600">
+                📅 <%= new Date(app.appointmentDate).toDateString() %>
+              </p>
+
+              <p class="text-sm text-gray-600">
+                🕒 <%= app.appointmentTime %>
+              </p>
+
+              <p class="text-sm text-gray-600">
+                🦷 <%= app.treatment %>
+              </p>
+            </div>
+
+            <!-- STATUS -->
+            <div>
+              <% if (app.status === 'Completed') { %>
+                <span class="px-4 py-1 rounded-full text-sm bg-green-100 text-green-700 font-semibold">
+                  Completed
+                </span>
+              <% } else if (app.status === 'Confirmed') { %>
+                <span class="px-4 py-1 rounded-full text-sm bg-blue-100 text-blue-700 font-semibold">
+                  Confirmed
+                </span>
+              <% } else if (app.status === 'Cancelled') { %>
+                <span class="px-4 py-1 rounded-full text-sm bg-red-100 text-red-700 font-semibold">
+                  Cancelled
+                </span>
+              <% } else { %>
+                <span class="px-4 py-1 rounded-full text-sm bg-yellow-100 text-yellow-700 font-semibold">
+                  Scheduled
+                </span>
+              <% } %>
+            </div>
+
+          </div>
+
+        <% }) %>
+      </div>
+    </div>
+
+  </div>
+
+</body>
+</html>

@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title><%= title %></title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+</head>
+
+<body class="min-h-screen bg-gradient-to-br from-[#FF9C87] via-white to-[#66B3FF]">
+
+<!-- Header -->
+     <%- include('../partials/header')%>
+<div id="menuOverlay" class="fixed inset-0 bg-black/40 hidden z-40"></div>
+
+ <div id="menu"
+     class="fixed top-0 right-0 h-full w-72 bg-[#FFE1D8] shadow-xl transform translate-x-full transition-transform duration-300 z-50">
+
+  <div class="p-4">
+    <h2 class="text-2xl font-bold text-sky-700 mb-6">Menu</h2>
+
+    <nav class="flex flex-col gap-2 text-lg font-semibold">
+      <a href="/clinic/home" class="hover:text-sky-600">Home</a>
+      <a href="/clinic/team" class="hover:text-sky-600">Our Team</a>
+      <a href="/clinic/services" class="hover:text-sky-600">Services</a>
+      <a href="/clinic/gallery" class="hover:text-sky-600">Gallery</a>
+      <a href="/clinic/contact" class="hover:text-sky-600">Contact</a>
+      <a href="/clinic/home#testimonials" class="hover:text-sky-600">Testimonials</a>
+      <a href="/clinic/home#FAQs" class="hover:text-sky-600">FAQs</a>
+
+
+      <hr class="my-4">
+      <h2 class="text-2xl font-bold text-red-700 mb-3">Login here</h2>
+
+      <!-- Login Links -->
+      <a href="/patient/signIn" class="hover:text-sky-600">Patient Login</a>
+      <a href="/doctor/login" class="hover:text-sky-600">Doctor Login</a>
+      <a href="/admin/login" class="hover:text-sky-600">Admin Login</a>
+    </nav>
+  </div>
+</div>
+
+  <!-- PAGE CONTAINER -->
+  <div class="max-w-7xl mx-auto px-6 py-12">
+
+    <!-- PAGE HEADER -->
+    <div class="text-center mb-14">
+      <h1 class="text-4xl md:text-5xl font-bold text-rose-400 mb-4">
+        About Us
+      </h1>
+      <p class="text-gray-700 max-w-3xl mx-auto text-lg md:text-xl">
+        Welcome to <span class="font-semibold text-rose-500">Peach Blossom Dental Care</span>,
+        where comfort, care, and modern dentistry come together to create healthy, confident smiles.
+      </p>
+    </div>
+
+    <!-- ABOUT CONTENT -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+
+      <!-- LEFT TEXT -->
+      <div class="bg-white rounded-2xl shadow-lg p-8 space-y-6">
+        <h2 class="text-2xl font-semibold text-sky-700">
+          Who We Are
+        </h2>
+        <p class="text-gray-600 leading-relaxed">
+          Peach Blossom Dental Care is a modern dental clinic designed with patients in mind.
+          Our calm peach, white, and sky-blue interiors reflect our belief that dental care
+          should feel welcoming, stress-free, and comfortable.
+        </p>
+
+        <p class="text-gray-600 leading-relaxed">
+          We focus on providing high-quality dental treatments using the latest technology,
+          strict hygiene standards, and a gentle approach tailored to every patient.
+        </p>
+
+        <h2 class="text-2xl font-semibold text-sky-700 pt-4">
+          Our Mission
+        </h2>
+        <p class="text-gray-600 leading-relaxed">
+          To deliver honest, compassionate, and advanced dental care that improves not only
+          oral health but overall well-being.
+        </p>
+      </div>
+
+      <!-- RIGHT IMAGE / VISUAL -->
+      <div class="bg-white rounded-2xl shadow-lg p-6">
+        <img 
+          src="/image/modern dental clinic outside  image with peach white sky blue colour theme..clinic name is peach blossom dental care with sky in this colour theme (1).jpg"
+          alt="Peach Blossom Dental Care"
+          class="rounded-xl object-cover w-full h-72 md:h-96"
+        />
+      </div>
+
+    </div>
+
+    <!-- VALUES SECTION -->
+    <div class="mt-20 mb-2">
+      <h2 class="text-3xl font-bold text-center text-sky-800 mb-10">
+        Why Choose Us
+      </h2>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8">
+        <div class="bg-white rounded-xl shadow p-6 text-center">
+          <h3 class="font-semibold text-lg text-rose-400 mb-2">Patient-First Care</h3>
+          <p class="text-gray-600 text-sm">
+            Every treatment is planned around your comfort and needs.
+          </p>
+        </div>
+
+        <div class="bg-white rounded-xl shadow p-6 text-center">
+          <h3 class="font-semibold text-lg text-rose-400 mb-2">Modern Technology</h3>
+          <p class="text-gray-600 text-sm">
+            Advanced equipment for accurate and efficient treatments.
+          </p>
+        </div>
+
+        <div class="bg-white rounded-xl shadow p-6 text-center">
+          <h3 class="font-semibold text-lg text-rose-400 mb-2">Expert Team</h3>
+          <p class="text-gray-600 text-sm">
+            Skilled professionals with experience across specialties.
+          </p>
+        </div>
+
+        <div class="bg-white rounded-xl shadow p-6 text-center">
+          <h3 class="font-semibold text-lg text-rose-400 mb-2">Hygienic & Safe</h3>
+          <p class="text-gray-600 text-sm">
+            Strict sterilization and safety protocols at all times.
+          </p>
+        </div>
+      </div>
+    </div>
+<script>
+  const menuBtn = document.getElementById('menuBtn');
+  const menuDetails = document.getElementById('menu');
+  const overlay = document.getElementById('menuOverlay');
+
+  menuBtn.addEventListener('click', () => {
+    menuDetails.classList.toggle('translate-x-full');
+    overlay.classList.toggle('hidden');
+  });
+
+  overlay.addEventListener('click', () => {
+    menuDetails.classList.add('translate-x-full');
+    overlay.classList.add('hidden');
+  });
+</script>
+
+
+  </div>
+  <!-- Footer -->
+     <%- include('../partials/footer')%>
+
+</body>
+</html>

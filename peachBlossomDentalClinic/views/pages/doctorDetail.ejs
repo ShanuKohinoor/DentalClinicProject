@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title><%= title %></title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+
+<body class="min-h-screen bg-gradient-to-br from-[#FF9C87] via-white to-[#66B3FF] overflow-hidden">
+
+<!--Container -->
+<div class="relative max-w-7xl mx-auto mt-10 bg-white/70 backdrop-blur-xl border border-white/40 rounded-3xl shadow-2xl h-[90vh] flex flex-col overflow-hidden">
+  <!--Header -->
+<!-- Header -->
+<div class="flex justify-between items-center bg-gradient-to-r from-[#FF9C87] via-white to-[#66B3FF] px-8 py-6">
+
+  <!-- LEFT: Title -->
+  <div class="flex-1">
+    <h1 class="text-3xl font-extrabold text-gray-800">
+      <%= title %>
+    </h1>
+  </div>
+
+  <!-- MIDDLE: SEARCH (SAME AS PATIENT) -->
+  <div class="flex-1 flex justify-center">
+    <form action="/admin/doctorDetails" method="GET" class="flex w-full max-w-md">
+
+      <input
+        type="text"
+        name="search"
+        placeholder="Search doctor..."
+        value="<%= search || '' %>"
+        class="w-full px-4 py-2 border rounded-l-lg focus:ring-2 focus:ring-[#66B3FF] outline-none"
+      />
+
+      <button
+        type="submit"
+        class="px-4 py-2 bg-[#66B3FF] text-white rounded-r-lg hover:bg-blue-500"
+      >
+        <i class="fa-solid fa-search"></i>
+      </button>
+
+    </form>
+  </div>
+
+  <!-- RIGHT: BUTTONS -->
+  <div class="flex-1 flex justify-end gap-3">
+
+    <a href="/admin/home"
+       class="px-4 py-2 bg-[#66B3FF] text-gray-700 font-semibold rounded-lg shadow hover:bg-gray-100 transition">
+      <i class="fa-solid fa-arrow-left mr-2"></i> Dashboard
+    </a>
+
+    <a href="/admin/newDoctor"
+       class="px-4 py-2 bg-[#FF9C87] text-white font-semibold rounded-lg shadow-lg hover:bg-[#4FA0E0] transition">
+      <i class="fa-solid fa-plus mr-2"></i> Add Doctor
+    </a>
+
+  </div>
+
+</div>
+  
+
+  <!-- Table Section -->
+  <div class="px-6 py-8 overflow-x-auto">
+
+    <table class="min-w-full text-md text-gray-700">
+
+      <!-- Table Head -->
+      <thead>
+        <tr class="text-gray-700 uppercase text-md tracking-wider border-b border-black">
+          <th class="px-6 py-4 text-center font-semibold">Sl No</th>
+          <th class="px-6 py-4 text-left font-semibold">Doctor</th>
+          <th class="px-6 py-4 text-left font-semibold">Specialization</th>
+          <th class="px-6 py-4 text-left font-semibold">Availability</th>
+          <th class="px-6 py-4 text-left font-semibold">Payment</th>
+          <th class="px-6 py-4 text-center font-semibold">Actions</th>
+        </tr>
+      </thead>
+
+      <!-- Table Body -->
+      <tbody class="divide-y divide-black/20">
+
+        <% if (dentists.length === 0) { %>
+          <tr>
+            <td colspan="6" class="text-center py-12 text-gray-400 text-lg">
+              <i class="fa-solid fa-user-doctor text-3xl mb-3 block text-[#66B3FF]"></i>
+              No doctors available
+            </td>
+          </tr>
+        <% } %>
+
+        <% dentists.forEach((dentist,index)=> { %>
+        <tr class="hover:bg-white/40 transition duration-300">
+
+          <!-- Index -->
+          <td class="px-6 py-5 text-center font-semibold text-gray-700">
+            <%= index + 1 %>
+          </td>
+
+          <!-- Doctor -->
+          <td class="px-6 py-5 font-semibold text-gray-900">
+            Dr. <%= dentist.name %>
+          </td>
+
+          <!-- Specialization -->
+          <td class="px-6 py-5">
+            <span class="px-3 py-1 bg-[#66B3FF]/40 text-[#1E3A8A] rounded-full text-xs font-semibold">
+              <%= dentist.specialization %>
+            </span>
+          </td>
+
+          <!-- Availability -->
+          <td class="px-6 py-5">
+            <% if (dentist.isAllDays) { %>
+              <span class="px-3 py-1 bg-emerald-100 text-emerald-700 rounded-full text-xs font-semibold">
+                All Days
+              </span>
+            <% } else if (dentist.availableDays && dentist.availableDays.length > 0) { %>
+              <div class="flex flex-wrap gap-2">
+                <% dentist.availableDays.forEach(day => { %>
+                  <span class="px-2 py-1 bg-[#FF9C87]/40 text-[#B91C1C] rounded-md text-xs font-medium">
+                    <%= day %>
+                  </span>
+                <% }) %>
+              </div>
+            <% } else { %>
+              <span class="text-gray-400">N/A</span>
+            <% } %>
+          </td>
+
+          <!-- Payment -->
+          <td class="px-6 py-5">
+            <% if (dentist.paymentStatus === 'Paid') { %>
+              <span class="px-3 py-1 bg-emerald-500 text-white rounded-full text-xs font-semibold">
+                Paid
+              </span>
+            <% } else if (dentist.paymentStatus === 'Pending') { %>
+              <span class="px-3 py-1 bg-[#FF9C87] text-white rounded-full text-xs font-semibold">
+                Pending
+              </span>
+            <% } else { %>
+              <span class="px-3 py-1 bg-gray-400 text-white rounded-full text-xs font-semibold">
+                No Payments
+              </span>
+            <% } %>
+          </td>
+
+          <!-- Actions -->
+          <td class="px-6 py-5 text-center">
+            <div class="flex justify-center gap-3">
+
+              <a href="/admin/doctor/<%=dentist._id%>/view"
+                 class="px-4 py-1 bg-[#66B3FF]/20 text-[#1E40AF] rounded-lg text-xs font-semibold hover:bg-[#66B3FF]/30 transition">
+                <i class="fa-solid fa-eye mr-1"></i> View
+              </a>
+
+              <form action="/admin/doctor/<%= dentist._id%>/delete" method="POST">
+                <button type="submit"
+                        class="px-4 py-1 bg-[#FF9C87]/20 text-[#B91C1C] rounded-lg text-xs font-semibold hover:bg-[#FF9C87]/30 transition">
+                  <i class="fa-solid fa-trash mr-1"></i> Delete
+                </button>
+              </form>
+
+            </div>
+          </td>
+
+        </tr>
+        <% }) %>
+
+      </tbody>
+    </table>
+
+  </div>
+</div>
+
+</body>
+</html>

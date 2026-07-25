@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title><%= title %></title>
+
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="min-h-screen p-6 bg-gradient-to-br from-rose-50 via-orange-50 to-pink-50">
+
+  <!-- Header -->
+  <div class="text-center mb-8">
+    <h1 class="text-3xl font-bold bg-gradient-to-r from-rose-500 to-orange-400 bg-clip-text text-transparent">
+      Patient Payment Details
+    </h1>
+  </div>
+
+  <!-- Summary Cards -->
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
+
+    <div class="bg-white/70 backdrop-blur-md border border-rose-200 p-6 rounded-2xl shadow-md">
+      <h2 class="text-gray-600">Total Paid</h2>
+      <p class="text-2xl font-bold text-emerald-600 mt-2">
+        ₹ <%= totalPaid %>
+      </p>
+    </div>
+
+    <div class="bg-white/70 backdrop-blur-md border border-rose-200 p-6 rounded-2xl shadow-md">
+      <h2 class="text-gray-600">Total Pending</h2>
+      <p class="text-2xl font-bold text-rose-500 mt-2">
+        ₹ <%= totalPending %>
+      </p>
+    </div>
+
+  </div>
+
+  <!-- Table -->
+  <div class="bg-white/70 backdrop-blur-md border border-rose-200 rounded-2xl shadow-lg overflow-x-auto">
+
+    <table class="w-full text-left border-collapse">
+
+      <!-- Header -->
+      <thead class="bg-rose-100 text-gray-700">
+        <tr>
+          <th class="p-4">Patient</th>
+          <th class="p-4">Reg No</th>
+          <th class="p-4">Paid</th>
+          <th class="p-4">Balance</th>
+          <th class="p-4">Status</th>
+          <th class="p-4">Date</th>
+        </tr>
+      </thead>
+
+      <!-- Body -->
+      <tbody>
+
+        <% if (payments.length === 0) { %>
+          <tr>
+            <td colspan="6" class="text-center p-6 text-gray-500">
+              No payment records found
+            </td>
+          </tr>
+        <% } %>
+
+        <% payments.forEach(payment => { %>
+
+          <% 
+            const balance = Number(payment.balance || 0);
+            const paid = Number(payment.paidAmount || 0);
+          %>
+
+          <tr class="border-b border-rose-100 hover:bg-rose-50 transition">
+
+            <!-- Patient -->
+            <td class="p-4 font-medium text-gray-700">
+              <%= payment.patient?.name || "Unknown" %>
+            </td>
+
+            <!-- Reg No -->
+            <td class="p-4 text-gray-500">
+              <%= payment.patient?.registrationNumber || "-" %>
+            </td>
+
+            <!-- Paid -->
+            <td class="p-4 text-emerald-600 font-semibold">
+              ₹ <%= paid %>
+            </td>
+
+            <!-- Balance -->
+            <td class="p-4 text-rose-500 font-semibold">
+              ₹ <%= balance %>
+            </td>
+
+            <!-- Status -->
+            <td class="p-4">
+
+              <% if (balance === 0) { %>
+                <span class="px-3 py-1 rounded-full bg-green-100 text-green-700 text-sm font-medium">
+                  Paid
+                </span>
+
+              <% } else if (paid > 0) { %>
+                <span class="px-3 py-1 rounded-full bg-yellow-100 text-yellow-700 text-sm font-medium">
+                  Partial
+                </span>
+
+              <% } else { %>
+                <span class="px-3 py-1 rounded-full bg-red-100 text-red-700 text-sm font-medium">
+                  Pending
+                </span>
+              <% } %>
+
+            </td>
+
+            <!-- Date -->
+            <td class="p-4 text-gray-500">
+              <%= new Date(payment.createdAt).toLocaleDateString() %>
+            </td>
+
+          </tr>
+
+        <% }) %>
+
+      </tbody>
+
+    </table>
+
+  </div>
+
+</body>
+</html>

@@ -1,0 +1,224 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Add New Patient</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+
+<body class="min-h-screen bg-gradient-to-br from-[#FF9C87] via-white to-[#66B3FF] flex items-center justify-center py-4">
+
+  <!-- Form Container -->
+  <div class="w-full max-w-3xl bg-white/70 backdrop-blur-xl border border-white/40 rounded-3xl shadow-2xl p-6 sm:p-10">
+
+    <!-- Header -->
+    <div class="flex items-center justify-center mb-2 gap-10">
+      <!-- Logo -->
+      <img src="/image/dentalLogo.png"
+           class="h-14 w-14 border-2 border-[#FF9C87] rounded-full object-contain shadow-md"
+           alt="Clinic Logo">
+
+      <!-- Title -->
+      <h1 class="text-3xl font-extrabold text-gray-800 flex items-center">
+        <i class="fa-solid fa-user-injured text-[#FF9C87] mr-2"></i>
+        Add New Patient
+      </h1>
+    </div>
+
+    <!-- Form -->
+    <form id="formSubmit" action="/admin/newPatient" method="POST" class="space-y-5" novalidate>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+
+        <!-- Full Name -->
+        <div>
+          <label class="block text-gray-700 font-semibold mb-1">Full Name <span class="text-red-500">*</span></label>
+          <input id="nameInput" type="text" name="name" required
+            class="w-full border border-gray-300 rounded-xl px-4 py-2 focus:outline-none focus:ring-2 focus:ring-[#FF9C87] bg-white/80" />
+          <p id="nameFeedback" class="text-red-600 text-xs mt-1"></p>
+        </div>
+
+        <!-- Age -->
+        <div>
+          <label class="block text-gray-700 font-semibold mb-1">Age <span class="text-red-500">*</span></label>
+          <input id="ageInput" type="number" name="age" min="0" max="120" required
+            class="w-full border border-gray-300 rounded-xl px-4 py-2 focus:outline-none focus:ring-2 focus:ring-[#FF9C87] bg-white/80" />
+          <p id="ageFeedback" class="text-red-600 text-xs mt-1"></p>
+        </div>
+
+        <!-- Gender -->
+        <div>
+          <label class="block text-gray-700 font-semibold mb-1">Gender <span class="text-red-500">*</span></label>
+          <select id="genderInput" name="gender" required
+            class="w-full border border-gray-300 rounded-xl px-4 py-2 focus:outline-none focus:ring-2 focus:ring-[#FF9C87] bg-white/80">
+            <option value="" disabled selected>Select Gender</option>
+            <option>Male</option>
+            <option>Female</option>
+            <option>Prefer not to say</option>
+          </select>
+          <p id="genderFeedback" class="text-red-600 text-xs mt-1"></p>
+        </div>
+
+        <!-- Phone -->
+        <div>
+          <label class="block text-gray-700 font-semibold mb-1">Phone Number <span class="text-red-500">*</span></label>
+          <input id="phoneInput" type="text" name="phone" required
+            class="w-full border border-gray-300 rounded-xl px-4 py-2 focus:outline-none focus:ring-2 focus:ring-[#FF9C87] bg-white/80" />
+          <p id="phoneFeedback" class="text-red-600 text-xs mt-1"></p>
+        </div>
+
+        <!-- Email -->
+        <div>
+          <label class="block text-gray-700 font-semibold mb-1">Email <span class="text-red-500">*</span></label>
+          <input id="emailInput" type="email" name="email"
+            class="w-full border border-gray-300 rounded-xl px-4 py-2 focus:outline-none focus:ring-2 focus:ring-[#FF9C87] bg-white/80" />
+          <p id="emailFeedback" class="text-red-600 text-xs mt-1"></p>
+        </div>
+
+      </div>
+
+      <!-- Buttons -->
+      <div class="flex flex-col sm:flex-row gap-4 justify-center mt-6">
+        <a href="/admin/home"
+           class="flex items-center justify-center gap-2 bg-[#66B3FF] text-gray-900 px-6 py-2 rounded-xl hover:bg-[#4FA0E0] transition font-semibold w-full sm:w-auto">
+          <i class="fa-solid fa-arrow-left"></i> Cancel
+        </a>
+
+        <button type="submit"
+           class="flex items-center justify-center gap-2 bg-[#FF9C87] text-white px-6 py-2 rounded-xl hover:bg-[#e68274] transition font-semibold w-full sm:w-auto">
+          <i class="fa-solid fa-plus"></i> Save Patient
+        </button>
+      </div>
+
+    </form>
+  </div>
+
+
+  <script>
+    const form = document.getElementById('formSubmit');
+    const nameInput = document.getElementById('nameInput')
+    const ageInput = document.getElementById('ageInput')
+    const genderInput = document.getElementById('genderInput')
+    const phoneInput = document.getElementById('phoneInput')
+    const emailInput = document.getElementById('emailInput')
+
+
+
+
+    const nameFeedback = document.getElementById('nameFeedback')
+    const ageFeedback = document.getElementById('ageFeedback')
+    const genderFeedback = document.getElementById('genderFeedback')
+    const phoneFeedback = document.getElementById('phoneFeedback')
+    const emailFeedback = document.getElementById('emailFeedback')
+
+
+        // Regex Patterns
+    const namePattern = /^[A-Za-z\s]+$/
+    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+(\.[^\s@]+)?$/
+    const phonePattern = /^\d{10}$/;
+
+         // Name validation
+      function nameCheck() {
+          const name = nameInput.value.trim();
+          if(!name){
+            nameFeedback.textContent ='Name is required'
+            return false
+         } else if(!namePattern.test(name)){
+            nameFeedback.textContent = 'Name should contain only Alphabet';
+            return false
+         } else {
+            nameFeedback.textContent = '';
+           return true
+         }
+      }
+
+      // Age validation
+      function ageCheck(){
+        const age =Number(ageInput.value)
+
+        if(!ageInput.value){
+          ageFeedback.textContent = 'Age is required'
+          return false;
+        }
+
+        if(age<0 || age> 120){
+          ageFeedback.textContent = 'Age must be between 0 and 120'
+          return false;
+        }
+
+        ageFeedback.textContent = '';
+        return true;
+      }
+
+        // Gender validation
+        function genderCheck(){
+        const gender = genderInput.value;
+
+        if(!gender){
+          genderFeedback.textContent = 'Gender is required';
+          return false;
+        } else {
+          genderFeedback.textContent = '';
+          return true;
+        }
+       }
+ 
+         // Email validation
+       function emailCheck(){
+        const email = emailInput.value.trim();
+        if(!email){
+          emailFeedback.textContent = 'Email is required'
+          return false
+        } else if(!emailPattern.test(email)){
+          emailFeedback.textContent = 'Please enter a valid email';
+          return false
+        } else{
+          emailFeedback.textContent = '';
+          return true
+        }
+       }
+
+        function phoneCheck(){
+        const phone = phoneInput.value.trim();
+
+        if(!phone){
+          phoneFeedback.textContent = 'Phone number is required';
+          return false;
+        } else if(!phonePattern.test(phone)){
+          phoneFeedback.textContent = 'Phone number must be exactly 10 digits';
+          return false;
+        } else {
+          phoneFeedback.textContent = '';
+          return true;
+        }
+       }
+
+
+        form.addEventListener('submit', function(e){
+        const allOk = nameCheck() &&
+                      ageCheck() &&
+                      genderCheck()&&
+                      phoneCheck() &&
+                      emailCheck();
+
+          if(!allOk){
+            e.preventDefault();
+          }
+
+       });
+
+       nameInput.addEventListener('blur', nameCheck);
+       ageInput.addEventListener('input',ageCheck)
+       genderInput.addEventListener('change', genderCheck);
+       phoneInput.addEventListener('input', phoneCheck);
+       emailInput.addEventListener('blur', emailCheck);
+
+  </script>
+
+</body>
+</html>

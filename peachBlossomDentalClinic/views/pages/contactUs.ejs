@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title><%= title %></title>
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+</head>
+
+<body class="min-h-screen bg-gradient-to-br from-[#FF9C87] via-white to-[#66B3FF]">
+  <!-- Header -->
+     <%- include('../partials/header')%>
+
+<!-- Overlay -->
+<div id="menuOverlay" class="fixed inset-0 bg-black/40 hidden z-40"></div>
+
+<!-- MENU -->
+<div id="menu"
+     class="fixed top-0 right-0 h-full w-72 bg-[#FFE1D8] shadow-xl transform translate-x-full transition-transform duration-300 z-50">
+  <div class="p-4">
+    <h2 class="text-2xl font-bold text-sky-700 mb-6">Menu</h2>
+    <nav class="flex flex-col gap-2 text-lg font-semibold">
+      <a href="/clinic/home" class="hover:text-sky-600">Home</a>
+      <a href="/clinic/about" class="hover:text-sky-600">About</a>
+      <a href="/clinic/team" class="hover:text-sky-600">Our Team</a>
+      <a href="/clinic/services" class="hover:text-sky-600">Services</a>
+      <a href="/clinic/gallery" class="hover:text-sky-600">Gallery</a>
+      <a href="/clinic/home#testimonials" class="hover:text-sky-600">Testimonials</a>
+      <a href="/clinic/home#FAQs" class="hover:text-sky-600">FAQs</a>
+
+      <hr class="my-4">
+      <h2 class="text-2xl font-bold text-red-700 mb-3">Login here</h2>
+
+      <a href="/patient/signIn" class="hover:text-sky-600">Patient Login</a>
+      <a href="/doctor/login" class="hover:text-sky-600">Doctor Login</a>
+      <a href="/admin/login" class="hover:text-sky-600">Admin Login</a>
+    </nav>
+  </div>
+</div>
+
+<!-- CONTACTUS CONTAINER -->
+<div class="max-w-7xl mx-auto px-4 py-12">
+
+  <!-- PAGE HEADER -->
+  <div class="text-center mb-12">
+    <h1 class="text-4xl md:text-4xl font-bold text-rose-400"><%=title%></h1>
+    <p class="mt-3 text-gray-600 max-w-xl mx-auto">
+      We are here to help you smile with confidence.  
+      Reach out to Peach Blossom Dental Care anytime.
+    </p>
+  </div>
+
+  <!-- CONTACT SECTION -->
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-10">
+
+    <!-- LEFT: CONTACT INFO -->
+    <div class="bg-white rounded-2xl shadow-lg p-8 space-y-6">
+
+      <div>
+        <h2 class="text-xl font-semibold text-gray-800 mb-2">
+          Peach Blossom Dental Care
+        </h2>
+        <p class="text-gray-600">
+          Providing modern, gentle dental care in a calm and hygienic environment.
+        </p>
+      </div>
+
+      <div class="space-y-4">
+        <p>
+          <i class="fa-solid fa-location-dot"></i>
+          <span class="font-medium text-gray-800"> Address:</span><br>
+          123 King Street,Birmingham, United Kingdom
+        </p>
+
+        <p>
+          <i class="fa-solid fa-phone"></i>
+          <span class="font-medium text-gray-800"> Phone:</span><br>
+          +44 1234 567890
+        </p>
+
+        <p>
+          <span class="font-medium text-gray-800">✉️ Email:</span><br>
+          peachblossomclinic@gmail.com
+        </p>
+
+        <p>
+          <i class="fa-solid fa-clock"></i>
+          <span class="font-medium text-gray-800"> Working Hours:</span><br>
+          Mon - Sat : 9:00 AM - 6:00 PM
+        </p>
+      </div>
+    </div>
+
+    <!-- RIGHT: CONTACT FORM -->
+    <div class="bg-white rounded-2xl shadow-lg p-8">
+      <h2 class="text-xl font-semibold text-gray-800 mb-6">
+        Send Us a Message
+      </h2>
+
+      <form action="/clinic/contact" method="post"  class="space-y-5">
+        <div>
+          <label class="block text-sm font-medium mb-1">Full Name</label>
+          <input name="name" type="text" placeholder="Enter your full name"
+                 class="w-full rounded-lg border border-gray-300 px-4 py-2 focus:outline-none focus:ring-2 focus:ring-rose-300"/>
+        </div>
+
+        <div>
+          <label class="block text-sm font-medium mb-1">Email Address</label>
+          <input name="email" type="email" placeholder="Enter your email"
+                 class="w-full rounded-lg border border-gray-300 px-4 py-2 focus:outline-none focus:ring-2 focus:ring-rose-300"/>
+        </div>
+
+        <div>
+          <label class="block text-sm font-medium mb-1">Message</label>
+          <textarea name="message" rows="4" placeholder="Write your message..."
+                    class="w-full rounded-lg border border-gray-300 px-4 py-2 focus:outline-none focus:ring-2 focus:ring-rose-300"></textarea>
+        </div>
+
+        <button type="submit"
+                class="w-full bg-rose-400 text-white py-3 rounded-lg font-medium hover:bg-rose-500 transition">
+          Send Message
+        </button>
+      </form>
+    </div>
+
+  </div>
+
+</div>
+
+<!-- MENU SCRIPT -->
+<script>
+  const menuBtn = document.getElementById('menuBtn');
+  const menuDetails = document.getElementById('menu');
+  const overlay = document.getElementById('menuOverlay');
+
+  menuBtn.addEventListener('click', () => {
+    menuDetails.classList.toggle('translate-x-full');
+    overlay.classList.toggle('hidden');
+  });
+
+  overlay.addEventListener('click', () => {
+    menuDetails.classList.add('translate-x-full');
+    overlay.classList.add('hidden');
+  });
+</script>
+    <!-- Footerer -->
+     <%- include('../partials/footer')%>
+
+</body>
+</html>

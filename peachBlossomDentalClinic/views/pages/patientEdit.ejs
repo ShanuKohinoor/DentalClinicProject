@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title><%= title %></title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+<body class="min-h-screen bg-gradient-to-br from-[#FF9C87] via-white to-[#66B3FF]  flex items-center justify-center">
+
+  <!-- Form Container -->
+  <div class="w-full max-w-xl bg-white/70 backdrop-blur-xl border border-white/40 rounded-3xl shadow-2xl p-6 sm:p-10">
+    <!-- Header -->
+    <div class="flex items-center justify-center mb-4 gap-10">
+      
+      <!-- Logo -->
+      <img src="/image/dentalLogo.png"
+          class="h-12 w-12 border border-[#FF9C87] rounded-full object-contain shadow-md"
+          alt="Clinic Logo">
+
+      <!-- Title -->
+      <h1 class="text-3xl font-extrabold text-gray-800 flex items-center">
+        <i class="fa-solid fa-user-pen text-[#FF9C87] mr-2"></i>
+        <%= title %>
+      </h1>
+
+    </div>
+    <!-- Edit Form -->
+    <form id="formSubmit" action="/admin/patient/<%= patient._id %>/edit" method="POST" class="space-y-5">
+
+      <!-- Name -->
+      <div>
+        <label class="block text-gray-700 font-semibold mb-1">Name <span class="text-red-500">*</span></label>
+        <input id="nameInput" type="text" name="name" value="<%= patient.name %>" required
+          class="w-full border border-gray-300 rounded-xl px-4 py-2 focus:outline-none focus:ring-2 focus:ring-[#FF9C87] bg-white/80" />
+          <p id="nameFeedback" class="text-red-600 text-xs mt-1"></p>
+      </div>
+        
+      <!-- Age -->
+      <div>
+        <label class="block text-gray-700 font-semibold mb-1">Age <span class="text-red-500">*</span></label>
+        <input id="ageInput" type="number" name="age" value="<%= patient.age %>" min="0"
+          class="w-full border border-gray-300 rounded-xl px-4 py-2 focus:outline-none focus:ring-2 focus:ring-[#FF9C87] bg-white/80" />
+          <p id="ageFeedback" class="text-red-600 text-xs mt-1"></p>
+        </div>
+
+      <!-- Gender -->
+      <div>
+        <label class="block text-gray-700 font-semibold mb-1">Gender</label>
+        <select name="gender" id="genderInput"
+          class="w-full border border-gray-300 rounded-xl px-4 py-2 focus:outline-none focus:ring-2 focus:ring-[#FF9C87] bg-white/80">
+          <option value="Male" <%= patient.gender === 'Male' ? 'selected' : '' %>>Male</option>
+          <option value="Female" <%= patient.gender === 'Female' ? 'selected' : '' %>>Female</option>
+          <option value="Other" <%= patient.gender === 'Other' ? 'selected' : '' %>>Prefer not to say</option>
+        </select>
+        <p id="genderFeedback" class="text-red-600 text-xs mt-1"></p>
+      </div>
+
+      <!-- Phone -->
+      <div>
+        <label class="block text-gray-700 font-semibold mb-1">Phone <span class="text-red-500">*</span></label>
+        <input type="text" id="phoneInput" name="phone" value="<%= patient.phone %>" required
+          class="w-full border border-gray-300 rounded-xl px-4 py-2 focus:outline-none focus:ring-2 focus:ring-[#FF9C87] bg-white/80" />
+           <p id="phoneFeedback" class="text-red-600 text-xs mt-1"></p>
+        </div>
+
+      <!-- Email -->
+      <div>
+        <label class="block text-gray-700 font-semibold mb-1">Email <span class="text-red-500">*</span></label>
+        <input type="email" id="emailInput" name="email" value="<%= patient.email %>" required
+          class="w-full border border-gray-300 rounded-xl px-4 py-2 focus:outline-none focus:ring-2 focus:ring-[#FF9C87] bg-white/80" />
+          <p id="emailFeedback" class="text-red-600 text-xs mt-1"></p>
+        </div>
+
+      <!-- Buttons -->
+      <div class="flex flex-col sm:flex-row gap-4 justify-center mt-4">
+
+        <a href="/admin/patients"
+          class="flex items-center justify-center gap-2 bg-[#66B3FF] text-gray-900 px-6 py-2 rounded-xl hover:bg-[#4FA0E0] transition font-semibold w-full sm:w-auto">
+          <i class="fa-solid fa-arrow-left"></i> Back to List
+        </a>
+
+       <button type="submit"
+          class="flex items-center justify-center gap-2 bg-[#FF9C87] text-white px-6 py-2 rounded-xl hover:bg-[#e68274] transition font-semibold w-full sm:w-auto">
+          <i class="fa-solid fa-pen"></i> Update Patient
+        </button>
+
+      </div>
+
+    </form>
+  </div>
+
+<script>
+const form = document.getElementById('formSubmit');
+
+const nameInput = document.getElementById('nameInput');
+const ageInput = document.getElementById('ageInput');
+const genderInput = document.getElementById('genderInput');
+const phoneInput = document.getElementById('phoneInput');
+const emailInput = document.getElementById('emailInput');
+
+const nameFeedback = document.getElementById('nameFeedback');
+const ageFeedback = document.getElementById('ageFeedback');
+const genderFeedback = document.getElementById('genderFeedback');
+const phoneFeedback = document.getElementById('phoneFeedback');
+const emailFeedback = document.getElementById('emailFeedback');
+
+// Regex 
+const namePattern = /^[A-Za-z\s]+$/;
+const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+(\.[^\s@]+)?$/;
+const phonePattern = /^\d{10}$/;
+
+// NAME
+function nameCheck() {
+  const name = nameInput.value.trim();
+
+  if (!name) {
+    nameFeedback.textContent = 'Name is required';
+    return false;
+  } else if (!namePattern.test(name)) {
+    nameFeedback.textContent = 'Name should contain only alphabets';
+    return false;
+  } else {
+    nameFeedback.textContent = '';
+    return true;
+  }
+}
+
+// AGE
+function ageCheck() {
+  const ageValue = ageInput.value;
+
+  if (!ageValue) {
+    ageFeedback.textContent = 'Age is required';
+    return false;
+  }
+
+  const age = Number(ageValue);
+
+  if (age < 0 || age > 120) {
+    ageFeedback.textContent = 'Age must be between 0 and 120';
+    return false;
+  }
+
+  ageFeedback.textContent = '';
+  return true;
+}
+
+// GENDER
+function genderCheck() {
+  const gender = genderInput.value;
+
+  if (!gender) {
+    genderFeedback.textContent = 'Gender is required';
+    return false;
+  }
+
+  genderFeedback.textContent = '';
+  return true;
+}
+
+// PHONE
+function phoneCheck() {
+  const phone = phoneInput.value.trim();
+
+  if (!phone) {
+    phoneFeedback.textContent = 'Phone number is required';
+    return false;
+  } else if (!phonePattern.test(phone)) {
+    phoneFeedback.textContent = 'Phone number must be exactly 10 digits';
+    return false;
+  }
+
+  phoneFeedback.textContent = '';
+  return true;
+}
+
+// EMAIL
+function emailCheck() {
+  const email = emailInput.value.trim();
+
+  if (!email) {
+    emailFeedback.textContent = 'Email is required';
+    return false;
+  } else if (!emailPattern.test(email)) {
+    emailFeedback.textContent = 'Please enter a valid email';
+    return false;
+  }
+
+  emailFeedback.textContent = '';
+  return true;
+}
+
+// FORM SUBMIT
+form.addEventListener('submit', function (e) {
+  const allOk =
+    nameCheck() &&
+    ageCheck() &&
+    genderCheck() &&
+    phoneCheck() &&
+    emailCheck();
+
+  if (!allOk) {
+    e.preventDefault();
+  }
+});
+
+// LIVE VALIDATION
+nameInput.addEventListener('blur', nameCheck);
+ageInput.addEventListener('input', ageCheck);
+genderInput.addEventListener('change', genderCheck);
+phoneInput.addEventListener('input', phoneCheck);
+emailInput.addEventListener('blur', emailCheck);
+
+</script>
+</body>
+</html>

@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Edit Appointment</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
+<body class="min-h-screen bg-gradient-to-br from-[#FF9C87] via-white to-[#66B3FF] flex items-center justify-center px-4 md:px-8 py-10">
+
+<div class="bg-white/70 backdrop-blur-xl border border-white/40 shadow-2xl rounded-3xl w-full max-w-5xl p-8 overflow-hidden">
+
+  <!-- HEADER -->
+  <div class="bg-gradient-to-r from-[#FF9C87] via-white to-[#66B3FF] -mx-8 -mt-8 mb-8 px-8 py-6 rounded-t-3xl">
+    <div class="flex items-center justify-between">
+      <h1 class="text-3xl font-extrabold text-gray-800">
+        <i class="fa-solid fa-calendar-pen text-sky-600 mr-2"></i>
+        Edit Appointment
+      </h1>
+
+      <span class="bg-white px-4 py-2 rounded-full shadow text-sm font-semibold text-gray-700">
+        ID: <%= appointment._id.toString().slice(-6).toUpperCase() %>
+      </span>
+    </div>
+  </div>
+
+  <!-- FORM -->
+  <form id="formSubmit"
+    action="/admin/editAppointment/<%= appointment._id %>"
+    method="POST"
+    class="grid grid-cols-1 md:grid-cols-2 gap-6">
+
+    <!-- NAME -->
+    <div class="bg-white p-4 rounded-xl shadow-sm border border-blue-50">
+      <label class="block text-gray-700 font-semibold mb-1">Patient Name</label>
+      <input type="text" name="name" value="<%= appointment.name %>"
+        class="w-full bg-blue-50 border border-blue-100 rounded-xl px-4 py-3 focus:ring-2 focus:ring-sky-400">
+    </div>
+
+    <!-- EMAIL -->
+    <div class="bg-white p-4 rounded-xl shadow-sm border border-blue-50">
+      <label class="block text-gray-700 font-semibold mb-1">Email</label>
+      <input type="email" name="email" value="<%= appointment.email %>"
+        class="w-full bg-blue-50 border border-blue-100 rounded-xl px-4 py-3 focus:ring-2 focus:ring-sky-400">
+    </div>
+
+    <!-- DATE -->
+    <div class="bg-white p-4 rounded-xl shadow-sm border border-blue-50">
+      <label class="block text-gray-700 font-semibold mb-1">Appointment Date</label>
+
+      <input type="date"
+        id="appointmentDate"
+        name="appointmentDate"
+        value="<%= appointment.appointmentDate.toISOString().split('T')[0] %>"
+        class="w-full bg-blue-50 border border-blue-100 rounded-xl px-4 py-3 focus:ring-2 focus:ring-sky-400"/>
+
+      <p class="mt-2 text-sm">
+        Selected:
+        <span id="selectedDate" class="text-sky-600 font-semibold">
+          <%= new Date(appointment.appointmentDate).toLocaleDateString('en-GB') %>
+        </span>
+      </p>
+    </div>
+
+    <!-- TIME -->
+    <div class="bg-white p-4 rounded-xl shadow-sm border border-blue-50">
+      <label class="block text-gray-700 font-semibold mb-1">Time Slot</label>
+
+      <div class="grid grid-cols-4 gap-2 mt-2">
+        <% const times = ["10:00 AM","10:30 AM","11:00 AM","11:30 AM","02:00 PM","02:30 PM","03:30 PM","04:00 PM"]; %>
+
+        <% times.forEach(t => { %>
+          <button type="button"
+            data-time="<%= t %>"
+            class="time-btn px-2 py-2 rounded-xl border border-gray-200 bg-white/60 text-gray-700 hover:bg-sky-50 transition
+            <%= appointment.appointmentTime === t ? 'bg-red-500 text-white shadow-lg' : '' %>">
+            <%= t %>
+          </button>
+        <% }) %>
+      </div>
+
+      <p class="mt-2 text-sm">
+        Selected:
+        <span id="selectedTime" class="text-sky-600 font-semibold">
+          <%= appointment.appointmentTime || 'None' %>
+        </span>
+      </p>
+
+      <input type="hidden" name="appointmentTime" id="appointmentTime"
+        value="<%= appointment.appointmentTime || '' %>">
+    </div>
+
+    <!-- DOCTOR -->
+    <div class="bg-white p-4 rounded-xl shadow-sm border border-blue-50">
+      <label class="block text-gray-700 font-semibold mb-1">Select Doctor</label>
+
+      <select id="doctorSelect" name="doctor"
+        class="w-full bg-blue-50 border border-blue-100 rounded-xl px-4 py-3 focus:ring-2 focus:ring-sky-400">
+
+        <option value="">--Choose Doctor--</option>
+
+        <% doctors.forEach(doc => { %>
+          <option value="<%= doc._id %>"
+            <%= doc._id.toString() === appointment.doctor?._id?.toString() ? 'selected' : '' %>>
+            <%= doc.name %>
+            <% if(doc.specialization){ %>(<%= doc.specialization %>)<% } %>
+          </option>
+        <% }) %>
+
+      </select>
+
+      <p id="doctorError" class="text-red-500 text-sm mt-2 hidden">
+        No doctors available on this date
+      </p>
+    </div>
+
+    <!-- TREATMENT -->
+    <div class="bg-white p-4 rounded-xl shadow-sm border border-blue-50">
+      <label class="block text-gray-700 font-semibold mb-1">Treatment</label>
+
+      <select name="treatment"
+        class="w-full bg-blue-50 border border-blue-100 rounded-xl px-4 py-3 focus:ring-2 focus:ring-sky-400">
+
+        <option value="">--Choose Treatment--</option>
+        <option value="routineCheckUp" <%= appointment.treatment==='routineCheckUp'?'selected':'' %>>Routine CheckUp</option>
+
+        <option value="pain" <%= appointment.treatment==='pain'?'selected':'' %>>Pain</option>
+
+        <option value="scaling" <%= appointment.treatment==='scaling'?'selected':'' %>>Scaling</option>
+
+        <option value="missingTeeth" <%= appointment.treatment==='missingTeeth'?'selected':'' %>>Missing Teeth</option>
+
+        <option value="wisdomTooth" <%= appointment.treatment==='wisdomTooth'?'selected':'' %>>Wisdom Tooth Removal</option>
+
+        <option value="misalignedTeeth" <%= appointment.treatment==='misalignedTeeth'?'selected':'' %>>Misaligned Teeth</option>
+
+        <option value="implant" <%= appointment.treatment==='implant'?'selected':'' %>>Implant</option>
+
+        <option value="filling" <%= appointment.treatment==='filling'?'selected':'' %>>Restoration</option>
+
+        <option value="root_canal" <%= appointment.treatment==='root_canal'?'selected':'' %>>Root Canal</option>
+
+        <option value="orthodontics" <%= appointment.treatment==='orthodontics'?'selected':'' %>>Orthodontics</option>
+
+        <option value="extraction" <%= appointment.treatment==='extraction'?'selected':'' %>>Extraction</option>
+
+        <option value="orthodonticsBraces" <%= appointment.treatment==='orthodonticsBraces'?'selected':'' %>>Orthodontic Braces</option>
+
+        <option value="clearAligner" <%= appointment.treatment==='clearAligner'?'selected':'' %>>Clear Aligner</option>
+
+      </select>
+    </div>
+
+    <!-- BUTTONS -->
+    <div class="md:col-span-2 flex justify-between mt-4">
+
+      <a href="/admin/allPatientAppointments"
+        class="px-6 py-3 rounded-full bg-[#66B3FF] text-white shadow-lg">
+        Back
+      </a>
+
+      <button type="submit"
+        class="px-8 py-3 rounded-full bg-gradient-to-r from-[#FF9C87] to-[#66B3FF] text-white shadow-lg">
+        Save Changes
+      </button>
+
+    </div>
+
+  </form>
+</div>
+
+<!-- SCRIPT -->
+<script>
+  const hiddenTime = document.getElementById('appointmentTime');
+  const selectedTime = document.getElementById('selectedTime');
+
+  document.querySelectorAll('.time-btn').forEach(btn => {
+
+    // keep selected on load
+    if (btn.dataset.time === hiddenTime.value) {
+      btn.classList.add('bg-red-500', 'text-white', 'shadow-lg');
+    }
+
+    btn.addEventListener('click', () => {
+
+      document.querySelectorAll('.time-btn').forEach(b => {
+        b.classList.remove('bg-red-500', 'text-white', 'shadow-lg');
+        b.classList.add('bg-white/60', 'text-gray-700');
+      });
+
+      btn.classList.remove('bg-white/60', 'text-gray-700');
+      btn.classList.add('bg-red-500', 'text-white', 'shadow-lg');
+
+      hiddenTime.value = btn.dataset.time;
+      selectedTime.textContent = btn.dataset.time;
+    });
+
+  });
+
+  // DATE 
+  const dateInput = document.getElementById('appointmentDate');
+  const doctorSelect = document.getElementById('doctorSelect');
+  const doctorError = document.getElementById('doctorError');
+
+  let currentDoctor = doctorSelect.value;
+
+  dateInput.addEventListener('change', async (e) => {
+    const date = e.target.value;
+
+    try {
+      const res = await fetch(`/admin/available-doctors?date=${date}`);
+      const data = await res.json();
+
+      doctorSelect.innerHTML = '<option value="">--Choose Doctor--</option>';
+
+      if (!data.doctors.length) {
+        doctorError.classList.remove('hidden');
+      } else {
+        doctorError.classList.add('hidden');
+
+        data.doctors.forEach(doc => {
+          const option = document.createElement('option');
+          option.value = doc._id;
+          option.textContent = `${doc.name} ${doc.specialization ? '(' + doc.specialization + ')' : ''}`;
+
+          if (doc._id === currentDoctor) {
+            option.selected = true;
+          }
+
+          doctorSelect.appendChild(option);
+        });
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  });
+</script>
+
+</body>
+</html>

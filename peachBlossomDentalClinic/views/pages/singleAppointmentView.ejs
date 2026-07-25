@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title><%= title %></title>
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+</head>
+
+<body class="min-h-screen bg-gradient-to-br from-[#FF9C87] via-white to-[#66B3FF] py-10 px-4">
+
+  <div class="max-w-4xl mx-auto bg-white/70 backdrop-blur-xl border border-white/40 rounded-3xl shadow-2xl overflow-hidden">
+
+    <!-- Header -->
+    <div class="bg-gradient-to-r from-[#FF9C87] via-white to-[#66B3FF] px-8 py-6 flex items-center justify-between">
+
+      <h1 class="text-3xl font-extrabold text-gray-800">
+        <i class="fa-solid fa-calendar-check text-sky-600 mr-2"></i>
+        Appointment Details
+      </h1>
+
+      <span class="bg-white px-4 py-2 rounded-full shadow text-sm font-semibold text-gray-700">
+        ID: <%= appointment._id.toString().slice(-6).toUpperCase() %>
+      </span>
+
+    </div>
+
+    <!-- Content -->
+    <div class="p-8">
+
+      <div class="grid md:grid-cols-2 gap-5">
+
+        <div class="bg-blue-100 p-4 rounded-xl shadow">
+          <p class="text-sm text-gray-500">Patient Name</p>
+          <p class="font-bold text-lg"><%= appointment.name %></p>
+        </div>
+
+        <div class="bg-blue-100 p-4 rounded-xl shadow">
+          <p class="text-sm text-gray-500">Email</p>
+          <p class="font-semibold"><%= appointment.email %></p>
+        </div>
+
+        <div class="bg-blue-100 p-4 rounded-xl shadow">
+          <p class="text-sm text-gray-500">Doctor</p>
+          <p class="font-semibold">
+            Dr.<%= appointment.doctor ? appointment.doctor.name : "Not Assigned" %>
+          </p>
+        </div>
+
+        <div class="bg-blue-100 p-4 rounded-xl shadow">
+          <p class="text-sm text-gray-500">Treatment</p>
+          <p class="font-semibold"><%= appointment.treatment %></p>
+        </div>
+
+        <div class="bg-blue-100 p-4 rounded-xl shadow">
+          <p class="text-sm text-gray-500">Appointment Date</p>
+          <p class="font-semibold">
+            <%= new Date(appointment.appointmentDate).toLocaleDateString('en-GB') %>
+          </p>
+        </div>
+
+        <div class="bg-blue-100 p-4 rounded-xl shadow">
+          <p class="text-sm text-gray-500">Appointment Time</p>
+          <p class="font-semibold">
+            <%= appointment.appointmentTime %>
+          </p>
+        </div>
+
+        <div class="bg-blue-100 p-4 rounded-xl shadow">
+          <p class="text-sm text-gray-500">Patient Type</p>
+          <p class="font-semibold capitalize">
+            <%= appointment.patientType %>
+          </p>
+        </div>
+
+        <div class="bg-blue-100 p-4 rounded-xl shadow">
+          <p class="text-sm text-gray-500">Status</p>
+
+          <% if (appointment.status === 'Scheduled') { %>
+            <span class="px-3 py-1 bg-yellow-100 text-yellow-700 rounded-full font-semibold">
+              Scheduled
+            </span>
+
+          <% } else if (appointment.status === 'Confirmed') { %>
+            <span class="px-3 py-1 bg-blue-100 text-blue-700 rounded-full font-semibold">
+              Confirmed
+            </span>
+
+          <% } else if (appointment.status === 'Completed') { %>
+            <span class="px-3 py-1 bg-green-100 text-green-700 rounded-full font-semibold">
+              Completed
+            </span>
+
+          <% } else { %>
+            <span class="px-3 py-1 bg-red-100 text-red-700 rounded-full font-semibold">
+              Cancelled
+            </span>
+          <% } %>
+
+        </div>
+
+      </div>
+
+      <!-- Buttons -->
+      <div class="mt-8 flex flex-wrap gap-4">
+
+        <a href="/admin/editAppointment/<%= appointment._id %>"
+          class="px-5 py-3 bg-[#FF9C87] text-white rounded-xl shadow-lg hover:bg-[#e68975] transition">
+          <i class="fa-solid fa-pen mr-2"></i>
+          Edit Appointment
+        </a>
+
+        <a href="/admin/patient/<%= appointment.patient._id %>/payments"
+          class="px-5 py-3 bg-emerald-500 text-white rounded-xl shadow-lg hover:bg-emerald-600 transition">
+          <i class="fa-solid fa-money-bill-wave mr-2"></i>
+          View Payments
+        </a>
+
+        <a href="/admin/allPatientAppointments"
+          class="px-5 py-3 bg-[#66B3FF] text-white rounded-xl shadow-lg hover:bg-[#529ae0] transition">
+          <i class="fa-solid fa-arrow-left mr-2"></i>
+          Back
+        </a>
+
+      </div>
+
+
+    </div>
+
+  </div>
+
+</body>
+</html>

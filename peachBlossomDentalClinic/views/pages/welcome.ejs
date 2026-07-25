@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title><%= title %></title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+</head>
+
+<body id="top" class="min-h-screen bg-gradient-to-br from-[#FF9C87] via-white to-[#66B3FF] overflow-y-auto">
+
+<!-- Header -->
+  <%- include('../partials/header') %>
+
+<button id="menuBtn" class="text-2xl md:hidden p-3">
+  <i class="fas fa-bars"></i>
+</button>
+
+<!-- Overlay -->
+<div id="menuOverlay"
+     class="fixed inset-0 bg-black/40 hidden z-40"></div>
+
+<!-- Side Menu -->
+<div id="menu"
+     class="fixed top-0 right-0 h-full w-72 bg-[#FFE1D8] shadow-xl transform translate-x-full transition-transform duration-300 z-50">
+
+  <div class="p-4">
+    <h2 class="text-2xl font-bold text-sky-700 mb-6">Menu</h2>
+
+    <nav class="flex flex-col gap-2 text-lg font-semibold">
+      <a href="#top" class="hover:text-sky-600">Home</a>
+      <a href="/clinic/about" class="hover:text-sky-600">About</a>
+      <a href="/clinic/team" class="hover:text-sky-600">Our Team</a>
+      <a href="/clinic/services" class="hover:text-sky-600">Services</a>
+      <a href="/clinic/gallery" class="hover:text-sky-600">Gallery</a>
+      <a href="/clinic/contact" class="hover:text-sky-600">Contact</a>
+      <a href="#testimonials" class="hover:text-sky-600">Testimonials</a>
+      <a href="#FAQs" class="hover:text-sky-600">FAQs</a>
+
+      <hr class="my-4">
+
+      <h2 class="text-2xl font-bold text-red-700 mb-3">Login here</h2>
+
+      <!-- Login Links -->
+      <a href="/patient/signIn" class="hover:text-sky-600">Patient Login</a>
+      <a href="/doctor/login" class="hover:text-sky-600">Doctor Login</a>
+      <a href="/admin/login" class="hover:text-sky-600">Admin Login</a>
+    </nav>
+  </div>
+</div>
+
+<!-- MAIN HERO SECTION -->
+<section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 md:py-16 grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 items-center">
+
+    <!-- LEFT CONTENT -->
+    <div>
+       <h2 class="text-3xl sm:text-4xl md:text-5xl font-bold text-gray-800 mb-4 md:mb-6 leading-tight">
+          "Your Smile, Our Priority"
+      </h2>
+
+      <p class="text-base sm:text-lg md:text-xl text-gray-800 mb-6 md:mb-8">
+          Welcome to <strong><%= title %></strong>.  
+        We provide high-quality dental treatments using modern technology
+        in a calm, patient-friendly environment.
+      </p>
+
+      <a href="/patient/loginPage"
+         class="inline-block px-5 py-3 md:px-6 md:py-3 rounded-lg border border-sky-900 text-base md:text-2xl font-semibold hover:bg-sky-700">
+        Book an Appointment
+      </a>
+    </div>
+
+    <!-- RIGHT VIDEO -->
+    <div class="relative w-full aspect-video max-h-[300px] md:max-h-none rounded-xl overflow-hidden shadow-lg bg-white">
+
+        <video
+          src="/video/peachblossomclinicVideo.mp4"
+          autoplay
+          muted
+          loop
+          playsinline
+          class="w-full h-full object-cover"
+        ></video>
+
+      <!-- BRAND TEXT  -->
+      <div class="absolute bottom-3 right-3 bg-white/30 text-white px-2 py-1 rounded-lg text-sm md:text-base backdrop-blur-sm">
+        Peachblossom Dental Clinic
+      </div>
+    </div>
+
+</section>
+
+<!-- DENTAL PROBLEMS --> 
+<section class="max-w-7xl mx-auto px-6 py-16 space-y-12">
+
+  <!-- PROBLEMS HEADING -->
+  <div class="text-center space-y-2">
+    <h2 class="text-3xl md:text-4xl font-bold text-gray-800">Do You Have Any Dental Problems?</h2>
+  </div>
+
+  <img class="w-full h-auto max-w-md mx-auto" src="/image/toothache.png" alt="Toothache">
+
+  <p class="text-gray-800 text-2xl max-w-3xl mx-auto">
+    We treat a wide range of dental issues. Find your concern below and get professional help.
+  </p>
+
+  <!-- COMMON DENTAL COMPLAINTS -->
+  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
+
+      <!-- FIXED CARD -->
+      <div class="bg-[#FFE1D8]/70 backdrop-blur-lg p-5 rounded-2xl shadow-lg hover:scale-105 transition-transform">
+        <h3 class="font-semibold text-lg sm:text-xl md:text-2xl text-gray-800 mb-2">
+          Tooth Decay
+        </h3>
+        <p class="text-sm sm:text-base md:text-lg text-gray-600">
+          Cavities caused by plaque buildup and bacteria.
+        </p>
+      </div>
+
+      <div class="bg-[#FFE1D8]/70 backdrop-blur-lg p-5 rounded-2xl shadow-lg hover:scale-105 transition-transform">
+        <h3 class="font-semibold text-2xl text-gray-800 mb-2">Tooth Sensitivity</h3>
+        <p class="text-gray-600 text-lg">Pain when eating hot or cold foods.</p>
+      </div>
+
+      <div class="bg-[#FFE1D8]/70 backdrop-blur-lg p-5 rounded-2xl shadow-lg hover:scale-105 transition-transform">
+        <h3 class="font-semibold text-2xl text-gray-800 mb-2">Gum Disease</h3>
+        <p class="text-gray-600 text-lg">Bleeding or swollen gums due to infection.</p>
+      </div>
+
+      <div class="bg-[#FFE1D8]/70 backdrop-blur-lg p-5 rounded-2xl shadow-lg hover:scale-105 transition-transform">
+        <h3 class="font-semibold text-2xl text-gray-800 mb-2">Bad Breath</h3>
+        <p class="text-gray-600 text-lg">Persistent bad odor indicating oral issues.</p>
+      </div>
+
+      <div class="bg-[#FFE1D8]/70 backdrop-blur-lg p-5 rounded-2xl shadow-lg hover:scale-105 transition-transform">
+        <h3 class="font-semibold text-2xl text-gray-800 mb-2">Broken/Chipped Teeth</h3>
+        <p class="text-gray-600 text-lg">Accidental damage to teeth that needs restoration.</p>
+      </div>
+
+      <div class="bg-[#FFE1D8]/70 backdrop-blur-lg p-5 rounded-2xl shadow-lg hover:scale-105 transition-transform">
+        <h3 class="font-semibold text-2xl text-gray-800 mb-2">Toothache</h3>
+        <p class="text-gray-600 text-lg">Pain due to cavities, infection, or sensitivity.</p>
+      </div>
+
+  </div>
+
+  <!-- HOW IT WORKS -->
+  <div class="mt-16 text-center space-y-8">
+    <h2 class="text-3xl md:text-4xl font-bold text-gray-800">How It Works</h2>
+
+    <p class="text-gray-800 text-2xl max-w-3xl mx-auto">
+      From booking to follow-up, our process is simple and patient-friendly.
+    </p>
+
+  </div>
+
+</section>
+
+<!-- CLINIC HOURS -->
+<section class="max-w-3xl mx-auto px-6 py-16">
+  <h2 class="text-3xl md:text-4xl font-bold text-gray-800 text-center mb-8">
+    Clinic Hours
+  </h2>
+
+  <div class="overflow-x-auto">
+    <table class="w-full bg-white shadow-lg rounded-xl overflow-hidden">
+      <thead class="bg-sky-600 text-white text-left">
+        <tr>
+          <th class="px-6 py-3 text-lg">Day</th>
+          <th class="px-6 py-3 text-lg">Opening Hours</th>
+        </tr>
+      </thead>
+      <tbody class="divide-y divide-gray-200">
+
+        <tr class="hover:bg-sky-50 transition-colors">
+          <td class="px-6 py-4 font-medium">Monday</td>
+          <td class="px-6 py-4">9:00 AM - 6:00 PM</td>
+        </tr>
+
+        <tr class="hover:bg-sky-50 transition-colors">
+          <td class="px-6 py-4 font-medium">Tuesday</td>
+          <td class="px-6 py-4">9:00 AM - 6:00 PM</td>
+        </tr>
+
+        <tr class="hover:bg-sky-50 transition-colors">
+          <td class="px-6 py-4 font-medium">Wednesday</td>
+          <td class="px-6 py-4">9:00 AM - 6:00 PM</td>
+        </tr>
+
+        <tr class="hover:bg-sky-50 transition-colors">
+          <td class="px-6 py-4 font-medium">Thursday</td>
+          <td class="px-6 py-4">9:00 AM - 6:00 PM</td>
+        </tr>
+
+        <tr class="hover:bg-sky-50 transition-colors">
+          <td class="px-6 py-4 font-medium">Friday</td>
+          <td class="px-6 py-4">9:00 AM - 6:00 PM</td>
+        </tr>
+
+        <tr class="hover:bg-sky-50 transition-colors">
+          <td class="px-6 py-4 font-medium">Saturday</td>
+          <td class="px-6 py-4">9:00 AM - 6:00 PM</td>
+        </tr>
+
+        <tr class="hover:bg-sky-50 transition-colors">
+          <td class="px-6 py-4 font-medium">Sunday</td>
+          <td class="px-6 py-4 text-red-500 font-semibold">Closed</td>
+        </tr>
+
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section id="testimonials" class="scroll-mt-20 max-w-7xl mx-auto px-6 py-16 space-y-10">
+
+  <h2 class="text-3xl md:text-4xl font-bold text-center text-gray-800 mb-12">
+    What Our Patients Say
+  </h2>
+
+  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
+
+    <div class="bg-white/70 backdrop-blur-lg p-6 rounded-2xl shadow-lg hover:scale-105 transition-transform">
+      <p class="text-gray-600 italic">
+        "Amazing experience! The staff is very friendly and professional. Highly recommend!"
+      </p>
+      <h4 class="mt-4 font-semibold text-gray-800">- Sarah K.</h4>
+    </div>
+
+    <div class="bg-white/70 backdrop-blur-lg p-6 rounded-2xl shadow-lg hover:scale-105 transition-transform">
+      <p class="text-gray-600 italic">
+        "Clean, modern clinic. The dentist explained everything clearly and the treatment was painless."
+      </p>
+      <h4 class="mt-4 font-semibold text-gray-800">- John D.</h4>
+    </div>
+
+    <div class="bg-white/70 backdrop-blur-lg p-6 rounded-2xl shadow-lg hover:scale-105 transition-transform">
+      <p class="text-gray-600 italic">
+        "My kids love visiting this dental clinic. Excellent care and very gentle staff."
+      </p>
+      <h4 class="mt-4 font-semibold text-gray-800">- Emma W.</h4>
+    </div>
+
+  </div>
+</section>
+
+<!-- FAQ SECTION -->
+<section id="FAQs" class="scroll-mt-20 max-w-7xl mx-auto px-6 py-16 space-y-10">
+
+  <h2 class="text-3xl md:text-4xl font-bold text-center text-gray-800 mb-12">
+    Frequently Asked Questions
+  </h2>
+
+  <div class="space-y-4">
+
+    <!-- FIXED: faq-btn added -->
+    <div class="border border-gray-200 rounded-xl overflow-hidden">
+      <button class="w-full flex justify-between items-center px-4 md:px-6 py-3 md:py-4 text-left font-medium text-gray-800 faq-btn">
+        What should I do before my first appointment?
+        <i class="fas fa-chevron-down transition-transform duration-300"></i>
+      </button>
+      <div class="px-4 md:px-6 py-3 md:py-4 text-gray-600 hidden">
+        Please arrive 10 minutes early, bring any dental records if available, and fill out our intake form.
+      </div>
+    </div>
+
+    <div class="border border-gray-200 rounded-xl overflow-hidden">
+      <button class="w-full flex justify-between items-center px-6 py-4 text-left font-medium text-gray-800 faq-btn">
+        Do you offer emergency services?
+        <i class="fas fa-chevron-down transition-transform duration-300"></i>
+      </button>
+      <div class="px-6 py-4 text-gray-600 hidden">
+        Yes, we provide emergency dental care during working hours. Contact us directly for urgent situations.
+      </div>
+    </div>
+
+    <div class="border border-gray-200 rounded-xl overflow-hidden">
+      <button class="w-full flex justify-between items-center px-6 py-4 text-left font-medium text-gray-800 faq-btn">
+        What payment methods do you accept?
+        <i class="fas fa-chevron-down transition-transform duration-300"></i>
+      </button>
+      <div class="px-6 py-4 text-gray-600 hidden">
+        We accept cash, card, and most major insurance plans.
+      </div>
+    </div>
+
+    <div class="border border-gray-200 rounded-xl overflow-hidden">
+      <button class="w-full flex justify-between items-center px-6 py-4 text-left font-medium text-gray-800 faq-btn">
+        How often should I visit for a dental check-up?
+        <i class="fas fa-chevron-down transition-transform duration-300"></i>
+      </button>
+      <div class="px-6 py-4 text-gray-600 hidden">
+        Regular check-ups are recommended every 6 months to maintain oral health and prevent dental issues.
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<script>
+  const menuBtn = document.getElementById('menuBtn');
+  const menuDetails = document.getElementById('menu');
+  const overlay = document.getElementById('menuOverlay');
+
+  menuBtn.addEventListener('click', () => {
+    menuDetails.classList.toggle('translate-x-full');
+    overlay.classList.toggle('hidden');
+  });
+
+  overlay.addEventListener('click', () => {
+    menuDetails.classList.add('translate-x-full');
+    overlay.classList.add('hidden');
+  });
+
+  // FAQ Toggle
+  document.querySelectorAll('.faq-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const content = btn.nextElementSibling;
+      const icon = btn.querySelector('i');
+      content.classList.toggle('hidden');
+      icon.classList.toggle('rotate-180');
+    });
+  });
+</script>
+
+<%- include('../partials/footer')%>
+
+</body>
+</html>

@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title><%= title %></title>
+
+  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+</head>
+
+<body class="bg-gradient-to-br from-[#FFE6DF] via-white to-[#D6ECFF] min-h-screen p-6 font-sans">
+
+<!-- HEADER -->
+<div class="max-w-7xl mx-auto mb-6">
+  <div class="backdrop-blur-xl bg-white/70 border border-white/40 shadow-lg rounded-2xl p-5 flex items-center justify-between gap-4">
+
+    <!-- LEFT: TITLE -->
+    <div class="flex flex-col">
+      <h1 class="text-3xl font-bold text-gray-800 flex items-center gap-2">
+        <i class="fa-solid fa-file-invoice text-[#FF7F6E]"></i>
+        All Invoices
+      </h1>
+      <p class="text-gray-500 text-sm mt-1">Peach Blossom Dental Clinic • Billing Overview</p>
+    </div>
+
+    <!-- CENTER: SEARCH -->
+    <div class="flex-1 max-w-xl mx-6">
+      <div class="relative">
+        <i class="fa fa-search absolute left-4 top-3.5 text-gray-400"></i>
+        <input
+          id="searchBox"
+          type="text"
+          placeholder="Search invoice, patient, status..."
+          class="w-full pl-10 p-3 rounded-xl border border-white/50 bg-white/70 backdrop-blur-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-[#FF9C87]"
+        />
+      </div>
+    </div>
+
+    <!-- RIGHT: STATS -->
+    <div class="text-right bg-white/60 px-5 py-3 rounded-xl shadow-sm border border-white min-w-[140px]">
+      <p class="text-sm text-gray-500">Total Invoices</p>
+      <p class="text-2xl font-bold text-[#1F2937]"><%= invoices.length %></p>
+    </div>
+
+  </div>
+</div>
+
+<!-- TABLE CARD -->
+<div class="max-w-7xl mx-auto bg-white/70 backdrop-blur-xl border border-white/40 shadow-xl rounded-2xl overflow-hidden">
+
+  <table class="w-full text-left" id="invoiceTable">
+
+    <thead class="bg-gradient-to-r from-[#FFB5A7] to-[#A7D8FF] text-gray-800">
+      <tr>
+        <th class="p-4">Invoice</th>
+        <th class="p-4">Patient</th>
+        <th class="p-4">Amount</th>
+        <th class="p-4">Status</th>
+        <th class="p-4">Date</th>
+        <th class="p-4 text-center">Action</th>
+      </tr>
+    </thead>
+
+    <tbody class="text-gray-700">
+
+      <% invoices.forEach(inv => { %>
+        <tr class="border-b border-white/40 hover:bg-white/60 transition">
+
+          <!-- Invoice -->
+          <td class="p-4 font-semibold text-gray-800">
+            #<%= inv.invoiceNumber %>
+          </td>
+
+          <!-- Patient -->
+          <td class="p-4 flex items-center gap-2">
+            <div class="w-8 h-8 rounded-full bg-[#FFE6DF] flex items-center justify-center text-[#FF7F6E]">
+              <i class="fa fa-user"></i>
+            </div>
+            <%= inv.patient?.name || "Unknown" %>
+          </td>
+
+          <!-- Amount -->
+          <td class="p-4 font-semibold text-gray-800">
+            £<%= inv.totalAmount %>
+          </td>
+
+          <!-- Status -->
+          <td class="p-4">
+            <% if(inv.status === "Paid") { %>
+              <span class="px-3 py-1 text-xs rounded-full bg-green-100 text-green-700">
+                Paid
+              </span>
+            <% } else if(inv.status === "Partial") { %>
+              <span class="px-3 py-1 text-xs rounded-full bg-yellow-100 text-yellow-700">
+                Partial
+              </span>
+            <% } else { %>
+              <span class="px-3 py-1 text-xs rounded-full bg-red-100 text-red-600">
+                Pending
+              </span>
+            <% } %>
+          </td>
+
+          <!-- Date -->
+          <td class="p-4 text-sm text-gray-500">
+            <%= new Date(inv.createdAt).toLocaleDateString() %>
+          </td>
+
+          <!-- ACTION -->
+          <td class="p-4 text-center">
+            <a href="/admin/appointment/<%= inv.appointment %>/invoice"
+               class="inline-flex items-center gap-1 bg-[#FF7F6E] hover:bg-[#ff6b58] text-white px-4 py-1.5 rounded-lg text-sm shadow-sm transition">
+              <i class="fa fa-eye"></i> View
+            </a>
+          </td>
+
+        </tr>
+      <% }) %>
+
+    </tbody>
+  </table>
+</div>
+</body>
+</html>
